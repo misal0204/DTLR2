@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Listado de análisis</title>
+        <link rel="stylesheet" href="#{appB.baseUrl}/resources/css/css_editor_row.css" type="text/css"/>
+    </h:head>
+    <h:body>
+        <h:form id="formPanel">  
+            <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>
+            <p:panel header="Cuadro de ánalisis" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom: 20px">
+                <p:ajax event="toggle"/>
+                <h:panelGrid columns="3">
+                    <p:menuButton value="Acciones en tabla">
+                        <p:menuitem value="Agregar Analisis" update=":formAdd:analisisAdd" oncomplete="PF('analisisAdd').show()"/>
+                        <p:menuitem value="Eliminar registros"/>
+                    </p:menuButton>
+                    <p:menuButton value="Tipo de analisis">
+                        <p:menuitem value="Agregar tipo de análisis" update=":formAddTp:analisisTpAdd" oncomplete="PF('analisisTpAdd').show()"/>
+                        <p:menuitem value="Ver listado" update=":formTpAnalisis:analisisTp" oncomplete="PF('analisisTp').show()"/>
+                    </p:menuButton>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <h:form id="formListA">
+            <p:growl id="msg" showDetail="true"/>
+            <p:dataTable
+                id="singleDT"
+                var="analy" value="#{analisisB.analisis}" 
+                selectionMode="single" selection="#{analisisB.selectedAnalisis}" 
+                rowKey="#{analy.analisisId}"
+                style="text-align: center"
+                emptyMessage="No existen Análisis"
+                paginator="true"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rows="8"
+                rowsPerPageTemplate="5,10,15"
+                resizableColumns="true"
+                draggableColumns="true"
+                editable="true"
+                widgetVar="listData">
+                <f:facet name="header">
+                    Análisis Existentes
+                </f:facet>
+                <p:ajax event="rowEdit" listener="#{analisisB.onRowEdit}" immediate="true" update=":formListA:singleDT,:formListA:msg"/>
+                <p:ajax event="rowEditCancel" listener="#{analisisB.onRowCancel}" update=":formListA:msg"/>
+                <p:column style="width: 50px;text-align: center" headerText="View">                   
+                    <p:commandButton update=":formVerA:analisisDetail"
+                                     oncomplete="PF('analisisDialog').show()" icon="ui-icon-search" title="Ver">
+                        <f:setPropertyActionListener value="#{analy}" target="#{analisisB.selectedAnalisis}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column headerText="Edit" style="width: 25px;">
+                    <p:rowEditor />
+                </p:column>
+                <p:column headerText="Nombre de analisis" filterBy="#{analy.nombre}" filterMatchMode="contains" sortBy="#{analy.nombre}">
+                    <p:cellEditor>
+                        <f:facet name="output"><p:outputLabel value="#{analy.nombre}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{analy.nombre}" required="true" /></f:facet>
+                    </p:cellEditor>              
+                </p:column>
+                <p:column headerText="Tipo de análisis" filterBy="#{analy.tpanalisisId.nombre}" filterMatchMode="exact" sortBy="#{analy.tpanalisisId.nombre}">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('listData').filter()">
+                            <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                            <f:selectItems value="#{analisisB.tpanalisis}" var="an" itemLabel="#{an.nombre}" itemValue="#{an.nombre}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output"><p:outputLabel value="#{analy.tpanalisisId.nombre}"/></f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu style="width: 50%" value="#{analisisB.tipoAnalisisId}" required="true">
+                                <f:selectItems value="#{analisisB.tpanalisis}" var="an" itemLabel="#{an.nombre}" itemValue="#{an.tpanalisisId}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Método" filterBy="#{analy.metodo}" filterMatchMode="contains" sortBy="#{analy.metodo}">
+                    <p:cellEditor>
+                        <f:facet name="output"><p:outputLabel value="#{analy.metodo}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{analy.metodo}" required="true"/></f:facet>
+                    </p:cellEditor>                    
+                </p:column>
+                <p:column headerText="NickName" filterBy="#{analy.nickName}" filterMatchMode="contains" sortBy="#{analy.nickName}">
+                    <p:cellEditor>
+                        <f:facet name="output"><p:outputLabel value="#{analy.nickName}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{analy.nickName}" required="true"/></f:facet>
+                    </p:cellEditor>                    
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <h:form id="formVerA">
+            <p:dialog header="Vista de Analisis" widgetVar="analisisDialog" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="analisisDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty analisisB.selectedAnalisis}" columnClasses="label,value">
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{analisisB.selectedAnalisis.analisisId}" />
+
+                        <h:outputText value="Nombre: " />
+                        <h:outputText value="#{analisisB.selectedAnalisis.nombre}" />
+
+                        <h:outputText value="Tipo de análisis:" />
+                        <h:outputText value="#{analisisB.selectedAnalisis.tpanalisisId.nombre}"/>
+
+                        <h:outputText value="Método: " />
+                        <h:outputText value="#{analisisB.selectedAnalisis.metodo}" />
+
+                        <h:outputText value="NickName: " />
+                        <h:outputText value="#{analisisB.selectedAnalisis.nickName}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="formAdd">
+            <p:dialog header="Agregar de Analisis" widgetVar="analisisAdd" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="analisisAdd" style="text-align:center;">
+                    <p:panelGrid  columns="2" columnClasses="label,value">
+                        <h:outputText value="Nombre: " />
+                        <h:inputText value="#{analisisB.inAnalisis.nombre}" required="true" />
+                        <h:outputText value="Tipo de análisis:" />
+                        <p:selectOneMenu id="tpAnalisis" value="#{analisisB.tipoAnalisisId}" required="true">
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItems value="#{analisisB.tpanalisis}" var="tpa" itemLabel="#{tpa.nombre}" itemValue="#{tpa.tpanalisisId}"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="Método: " />
+                        <h:inputText value="#{analisisB.inAnalisis.metodo}" required="true"/>
+                        <h:outputText value="NickName: "/>
+                        <h:inputText value="#{analisisB.inAnalisis.nickName}" required="true"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar" icon="ui-icon-disk" action="#{analisisB.insertAnalisis}" update=":formListA:singleDT,formAdd,:formListA:msg"/>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="formTpAnalisis">
+            <p:dialog header="Tipos de análisis" widgetVar="analisisTp" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="analisisTp" style="text-align:center;">
+                    <p:dataList var="tplist" value="#{analisisB.tpanalisis}" rows="6">
+                        <h:outputText value="#{tplist.nombre}" />
+                    </p:dataList>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="formAddTp">
+            <p:dialog header="Agregar Tipo Analisis" widgetVar="analisisTpAdd" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="analisisTpAdd" style="text-align:center;">
+                    <p:panelGrid  columns="2" columnClasses="label,value">
+                        <h:outputText value="Id:" />
+                        <h:inputText value="" />
+
+                        <h:outputText value="Tipo de análisis: " />
+                        <h:inputText value="" />
+                    </p:panelGrid>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar" icon="ui-icon-disk"/>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+

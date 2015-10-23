@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Menú principal DataLab</title>
+        <link rel="stylesheet" href="#{appB.baseUrl}/resources/css/css_menu_principal.css" type="text/css"/>
+    </h:head>
+    <h:body>
+        <h:form id="principal" class="formulario_menu">
+            <p:layout fullPage="true" id="layout_full_page">
+                <p:layoutUnit position="north" id="layoutunit_north">
+                    <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="west"  minSize="100" maxSize="275" size="275">
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    <p:accordionPanel value="#{menuB.listModulos}" var="modulo" activeIndex="0" >                        
+                        <p:tab title="#{modulo.nombre}" titleStyleClass="ui-tabs-left">
+                            <p:tabView orientation="left" effect="blind" >
+                                <p:tab title="Procesos">
+                                    <p:dataGrid var="opcion" value="#{menuB.formProcess}" columns="2"  style="text-align: center;">
+                                        <h:commandButton image="/resources/icons/#{opcion.nombrePag}.png" class="button_image"
+                                                         onclick="window.open('#{opcion.nombrePag}.xhtml')" readonly="true" >
+                                            <f:ajax execute="@form"/>
+                                        </h:commandButton> 
+                                        <br></br>
+                                        <h:outputText value="#{opcion.nombre}" class="texto_principal"/>
+                                    </p:dataGrid>
+                                </p:tab>
+                                <p:tab title="Clientes">
+                                    <p:dataGrid var="opcion" value="#{menuB.formClt}" columns="2"  style="text-align: center;">
+                                        <h:commandButton image="/resources/icons/#{opcion.nombrePag}.png" class="button_image"
+                                                         onclick="window.open('#{opcion.nombrePag}.xhtml')" readonly="true" >
+                                            <f:ajax execute="@form"/>
+                                        </h:commandButton> 
+                                        <br></br>
+                                        <h:outputText value="#{opcion.nombre}" class="texto_principal"/>
+                                    </p:dataGrid>
+                                </p:tab>   
+                                <p:tab title="Reportes Listados">
+                                    <p:dataGrid var="opcion" value="#{menuB.formRList}" columns="2"  style="text-align: center;">
+                                        <h:commandButton image="/resources/icons/#{opcion.nombrePag}.png" class="button_image"
+                                                         onclick="window.open('#{opcion.nombrePag}.xhtml')" readonly="true" >
+                                            <f:ajax execute="@form"/>
+                                        </h:commandButton> 
+                                        <br></br>
+                                        <h:outputText value="#{opcion.nombre}" class="texto_principal"/>
+                                    </p:dataGrid>
+                                </p:tab>   
+                                <p:tab title="Estadisticos">
+                                    <p:dataGrid var="opcion" value="#{menuB.formEstad}" columns="2"  style="text-align: center;">
+                                        <h:commandButton image="/resources/icons/#{opcion.nombrePag}.png" class="button_image"
+                                                         onclick="window.open('#{opcion.nombrePag}.xhtml')" readonly="true" >
+                                            <f:ajax execute="@form"/>
+                                        </h:commandButton> 
+                                        <br></br>
+                                        <h:outputText value="#{opcion.nombre}" class="texto_principal"/>
+                                    </p:dataGrid>
+                                </p:tab>   
+                                <p:tab title="Configuración">
+                                    <p:dataGrid var="opcion" value="#{menuB.formConfig}" columns="2"  style="text-align: center;">
+                                        <h:commandButton image="/resources/icons/#{opcion.nombrePag}.png" class="button_image"
+                                                         onclick="window.open('#{opcion.nombrePag}.xhtml')" readonly="true" >
+                                            <f:ajax execute="@form"/>
+                                        </h:commandButton> 
+                                        <br></br>
+                                        <h:outputText value="#{opcion.nombre}" class="texto_principal"/>
+                                    </p:dataGrid>
+                                </p:tab>   
+                            </p:tabView>
+                        </p:tab> 
+                    </p:accordionPanel>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="east" size="270" minSize="100" maxSize="270">  
+                    <p:accordionPanel>
+                        <p:tab title="Información">
+                            <h:panelGrid columns="1" cellpadding="3">
+                                <h:column>
+                                    <h:outputText value="#{attBean.username}"/>
+                                    <br></br>
+                                    <h:outputText value="Administrador"/>
+                                    <br></br>
+                                    <h:outputText value="#{attBean.schema}"/>
+                                    <h:commandButton value="Cerra sesión"/>        
+                                </h:column>
+                            </h:panelGrid>
+                        </p:tab>                  
+                    </p:accordionPanel>
+                    <p:accordionPanel value="#{vistaB.panelDerecho}" var="men" activeIndex=""  >
+                        <p:tab title="#{men.titulo}">
+
+                        </p:tab>                  
+                    </p:accordionPanel>
+                </p:layoutUnit>
+                <p:layoutUnit id="layoutunit_south" 
+                              position="south" style="font-family: 'Consolas', cursive;font-size: 15px;">
+                    <h:outputText value="Dirección  de informatica" />
+                </p:layoutUnit>
+            </p:layout>
+        </h:form> 
+    </h:body>
+</html>
+

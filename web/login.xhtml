@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+       <title>Gestión de laboratorios DATALABR2</title>
+        <link rel="stylesheet" href="#{appB.baseUrl}/resources/css/css_login.css" type="text/css"/>
+    </h:head>
+    <h:body>
+       <div class="contenedor">
+            <p:growl id="growl" sticky="true" showDetail="true" life="4000"/>
+            <h:form class="formulario">
+                <h:panelGrid columns="2" class="panelGrid_login">
+                    <h:column>
+                        <h:graphicImage  id="img" alt="Logo" url="resources/images/logo_menu.png" style="background-size: 100% 100%; margin-bottom: 25px; height: 150px"/>
+                        <h:outputLabel class="textfooter" value="Corpyrigth 2015 corporación Multi Inversiones ITMM All right reserved"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputLabel styleClass="estiloTextTitulo">
+                            DataLab R2
+                        </h:outputLabel>
+                        <hr id="separador"></hr>
+                        <h:panelGrid>
+                            <h:outputLabel for="input_user" styleClass="estiloText" >Usuario:</h:outputLabel>
+                            <h:message for="input_user" errorStyle="color:red" />
+                            <h:inputText id="input_user" value="#{attBean.username}" required="true" requiredMessage="* Campo Requerido"/>                
+                            <h:outputLabel for="input_pass" styleClass="estiloText">Password:</h:outputLabel> 
+                            <h:message for="input_pass" errorStyle="color: red"/>
+                            <h:inputSecret id="input_pass" value="#{attBean.password}" required="true" requiredMessage="* Campo Requerido"/>
+                            <h:selectOneRadio id="radio_buton" class="radioButton" value="#{attBean.schema}"
+                                              required="true" requiredMessage="Seleccione un esquema">
+                                <f:selectItem itemValue="PRODUCTIVO" itemLabel="Productivo"/>
+                                <f:selectItem itemValue="CALIDAD" itemLabel="Calidad"/>
+                            </h:selectOneRadio>
+                            <h:message for="radio_buton" errorStyle="color: red"/>
+                        </h:panelGrid>
+
+                        <br></br>
+                        <h:commandButton value="Ingresar" action="#{attBean.authenticationControl}"/>
+                        <h:messages id="msgError" infoStyle="color: blue;list-style:none;" errorStyle="color:red;list-style:none;"/>
+                    </h:column>
+                </h:panelGrid>
+            </h:form>   
+        </div>
+    </h:body>
+</html>
+

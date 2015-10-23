@@ -1,0 +1,357 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07-17-2015, 08:10:12 AM
+    Author     : Misael
+*/
+
+/*Estilo de formulario menú principal*/
+
+
+.body{
+    background: #F8F8F8;
+}
+
+.texto_principal{
+    font-family: "Estrangelo Edessa", cursive;
+    font-size: 12px;
+}
+
+.texto_footer{
+    font-family: "Consolas", cursive;
+    font-size: 10px;
+}
+.formulario_menu
+{
+    background-color:white;
+    border-radius: 7px;
+    display: inline-block;
+    margin-top: 90px;
+    text-align: center;
+    vertical-align: middle;
+    width: 600px;
+}
+
+/*
+Estilo para boton de login
+*/
+
+.formulario_menu input[type=submit]
+{
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    height: 40px;
+    margin: 4px;
+    min-width:175px;
+
+    border:1px solid #e78f08;
+    background:#f6a828;
+}
+
+.formulario_menu input[type=submit]:hover
+{
+    background:#D84530;
+    cursor: pointer;
+}
+
+.formulario_menu input[type=submit]:focus
+{
+    outline: #409FBA;
+}
+
+#layout_full_page{
+    min-width: 400px; 
+    min-height: 200px;
+}
+#layoutunit_north #layoutunit_south {
+    text-align: center;
+    font-family: "Consolas", cursive;
+    font-size: 10px;
+}
+.panel_center{
+    width: 175px;
+    height: 125px;
+    text-align: center
+}
+.button_image{
+    width: 25%;
+    background-size: 100% 100%;
+}
+
+/*cuerpo de accordion*/
+
+.ui-accordion{
+    width:100%;
+}
+.ui-accordion .ui-accordion-header{
+    cursor:pointer;
+    position:relative;
+    margin-top:1px;
+    min-height:0;
+    padding:.5em .5em .5em 2.2em;
+
+    border:1px solid #e78f08;
+    background:#f6a828;
+    text-align: left;
+    color: white;
+    //font: large/90% "Lucida Sans", monospace; 
+    font-family: "Lucida Sans", serif;
+    font-size: 17px;
+}
+.ui-accordion .ui-accordion-header .ui-icon{
+    position:absolute;
+    left:.5em;
+    top:50%;
+    margin-top:-8px;
+    background-color: #F8F8F8;
+
+}
+.ui-accordion .ui-accordion-content{
+    padding:1em 2.2em;
+    border-top:0;
+    margin-top:-2px;
+    position:relative;
+    top:1px;
+    margin-bottom:2px;
+    overflow:auto;
+    zoom:1;
+    background: #F8F8F8;
+}
+.ui-accordion .ui-accordion-header.ui-state-disabled, .ui-accordion .ui-accordion-header.ui-state-disabled a{
+    cursor:default;
+
+}
+/** RTL **/
+.ui-accordion.ui-accordion-rtl{
+    direction:rtl;
+
+}
+.ui-accordion.ui-accordion-rtl .ui-accordion-header .ui-icon{
+    right:0.5m;left:auto;   
+}
+.ui-accordion.ui-accordion-rtl .ui-accordion-header a{
+    padding:0.5em 2.2em 0.5em 0.5em;
+}
+
+/* DatGridView*/
+.ui-datagrid-data{
+    width:100%;
+}
+.ui-datagrid .ui-paginator{
+    text-align:center;
+}
+.ui-datagrid-column{
+    padding:3px;
+    background-color:#F8F8F8;
+}
+.ui-datagrid-content-empty{
+    padding:4px 10px;
+}
+.ui-datagrid .ui-datagrid-header,.ui-datagrid .ui-datagrid-footer{
+    text-align:center;
+    padding:4px 10px;
+
+}
+.ui-datagrid .ui-datagrid-header{
+    border-bottom:0px none;
+}
+.ui-datagrid .ui-datagrid-footer{
+    border-top:0px none;
+}
+.ui-datagrid .ui-paginator-top{
+    border-bottom:0px none;
+    background-color:#F8F8F8;
+
+}
+.ui-datagrid .ui-paginator-bottom{
+    border-top:0px none;
+}
+
+/* fuente de TabView */
+.ui-tabs{
+    position: relative;
+    padding:.2em;
+    background: #F8F8F8;
+} 
+/* position:relative prevents IE scroll bug (element with position:relative inside container with overflow:auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav{
+    margin:0;
+}
+.ui-tabs .ui-tabs-nav li{
+    list-style:none;
+    float:left;
+    position:relative;
+    margin:0 .2em 1px 0;
+    padding:0;
+    white-space:nowrap;
+}
+.ui-tabs .ui-tabs-nav li a{
+    float:left;
+    padding:.5em 1em;
+    text-decoration:none;
+}
+
+/*Eventos en las opciones del panel*/
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a{
+    cursor:text;
+    color: #D84530;
+}
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a{
+    cursor:pointer;
+    color: white;
+}
+/* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor:text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel{
+    border-width:0;
+    padding:1em 1.4em;
+    background: #F8F8F8;
+}
+.ui-tabs .ui-tabs-nav li{
+    display:block;
+}
+.ui-tabs .ui-tabs-nav li .ui-icon{
+    float:left;
+    margin:0.4em 0.2em 0 0;
+    cursor:pointer;
+}
+/* per orientation settings *//* top and bottom */
+.ui-tabs.ui-tabs-top > .ui-tabs-nav li{
+    border-bottom:0;
+    top:1px;
+}
+.ui-tabs.ui-tabs-top > .ui-tabs-nav{
+    padding:.2em .2em 0;
+}
+.ui-tabs.ui-tabs-bottom > .ui-tabs-nav{
+    padding:0 .2em .2em;
+}
+.ui-tabs.ui-tabs-bottom > .ui-tabs-nav li{
+    border-top:0;
+}
+/* left and right*/
+.ui-tabs-left:after,.ui-tabs-right:after{
+    clear:both;
+    content:".";
+    display:block;
+    height:0;
+    visibility:hidden;
+
+}
+.ui-tabs-left > .ui-tabs-nav{
+    float:left;
+    width:23%;
+    height:300px;
+
+    background: #F8F8F8;
+    padding-top:1px;
+}
+.ui-tabs-left > .ui-tabs-panels{
+    float:right;
+    width:75%;
+}
+.ui-tabs.ui-tabs-left > .ui-tabs-nav li,.ui-tabs.ui-tabs-right > .ui-tabs-nav li{
+    display:block;
+    white-space:normal;
+    width:100%;
+
+    border:1px solid #e78f08;
+    background:#f6a828;
+    font-family: "Lucida Sans", serif;
+    font-size: 14px;
+}
+.ui-tabs.ui-tabs-left > .ui-tabs-nav li{
+    float:right;
+}
+.ui-tabs.ui-tabs-right > .ui-tabs-nav li{
+    float:left;
+}
+.ui-tabs.ui-tabs-left > .ui-tabs-nav li{
+    margin:0 0 1px 0.2em;
+    border-right:0 none;
+}
+.ui-tabs.ui-tabs-right > .ui-tabs-nav{
+    float:right;
+    width:23%;
+    height:300px;
+    background-image:none;
+    padding-top:1px;
+}
+.ui-tabs.ui-tabs-right > .ui-tabs-panels{
+    float:left;
+    width:75%;
+}
+.ui-tabs.ui-tabs-right > .ui-tabs-nav li{
+    margin:0 0.2em 1px 0;
+    border-left:0 none;
+}
+/** RTL **/
+.ui-tabs-rtl{
+    direction:rtl;
+}
+.ui-tabs-rtl .ui-tabs-nav li, .ui-tabs-rtl .ui-tabs-nav li a{
+    float:right;
+}
+/** Scroll **/
+.ui-tabs-scrollable .ui-tabs-nav{
+    width:5000px;
+}
+.ui-tabs .ui-tabs-navscroller{
+    overflow:hidden;
+    position:relative;
+}
+.ui-tabs-scrollable .ui-tabs-nav li{
+    margin:0 .2em -1px 0;
+}
+.ui-tabs .ui-tabs-navscroller-btn{
+    position:absolute;
+    height:28px;
+    top:0px;
+    z-index:100;
+    cursor:pointer;
+    display:none;
+}
+.ui-tabs .ui-tabs-navscroller-btn-left{
+    left:0px;
+}
+.ui-tabs .ui-tabs-navscroller-btn-right{
+    right:0px;
+}
+.ui-tabs .ui-tabs-navscroller-btn-left .ui-icon,.ui-tabs .ui-tabs-navscroller-btn-right .ui-icon{
+    margin-top:5px;
+}
+
+/*Estilo de layout*/
+.ui-layout-unit{
+    visibility:hidden;
+    padding:0.2em;
+    background: #F8F8F8;
+    /*Quita borde*/
+    border:0px none;
+}
+.ui-layout-unit-header, .ui-layout-unit-footer{
+    padding:0.4em 0.2em 0.4em 0.4em;
+}
+.ui-layout-unit-header-title, .ui-layout-unit-footer-title{}.ui-layout-unit .ui-layout-unit-content{
+    padding:0.2em 0em;
+    border:0px none;
+    overflow:auto;
+    background: #F8F8F8;
+}
+.ui-layout-unit-header-icon{
+    float:right;
+}
+.ui-layout-unit-header-icon,.ui-layout-unit-header-icon:hover,.ui-layout-unit-header-icon:focus{
+    margin-right:0.2em;
+    margin-top:-0.2em;
+}
+.ui-layout-unit-expand-icon{
+    display:block;
+    width:16px;
+    position:absolute;
+    left:4px;
+    top:2px;
+}

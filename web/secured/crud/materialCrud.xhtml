@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Crear Material</title>
+    </h:head>
+    <h:body>
+        <h:form id="formMaterial">
+            <p:panel id="crearMaterial" header="Crear Material">
+                <p:fieldset legend="Datos básicos" style="margin-bottom:20px">
+                    <h:panelGrid columns="8" >
+                        <p:outputLabel value="Número material: " for="inIdMaterial" />
+                        <p:inputText value="" id="inIdMaterial"/>
+
+                        <p:outputLabel value="Nombre material: " for="materialNom"/>
+                        <p:inputText value="" id="materialNom"/>
+
+                        <p:outputLabel value="Tipo material: " for="materialTp"/>
+                        <p:inputText value="" id="materialTp"/>
+
+                        <p:outputLabel value="Unidad: " for="materialUn"/>
+                        <p:inputText value="" id="materialUn"/>
+
+                        <p:outputLabel value="Frecuencia: " for="materialFr"/>
+                        <p:inputText value="" id="materialFr"/>
+
+                        <p:outputLabel value="No Muestras:  " for="materialNMu"/>
+                        <p:inputText value="" id="materialNMu"/>
+
+                        <p:outputLabel value="Intervalo: " for="materialInt"/>
+                        <p:inputText value="" id="materialInt"/>
+
+                        <p:outputLabel value="Hora de inicio: " for="materialHr"/>
+                        <p:inputText value="" id="materialHr"/>
+                    </h:panelGrid>
+                </p:fieldset>
+                <p:fieldset legend="Datos avanzados" >
+                    <p:tabView>
+                        <p:tab title="Asignar centro">
+                            <h:panelGrid columns="2" cellpadding="10">
+
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Asignar Muestra">
+                            <h:panelGrid columns="2" cellpadding="10">
+
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Asignar analisis">
+                            <h:panelGrid columns="2" cellpadding="10">
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                </p:fieldset>
+                <p:fieldset legend="Confirmar" >
+                    <p:commandButton value="Crear Material"/>
+                </p:fieldset>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Materiales</title>
+    </h:head>
+    <h:body>
+        <h:form id="formMateriales">
+            <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>
+
+            <p:panel header="Crear">
+                <h:commandButton value="Crear material" action="#{materialB.crearMaterial()}"/>
+            </p:panel>
+            <p:dataTable id="singleDT" var="material" value="#{materialB.materiales}" selectionMode="single" selection="#{materialB.selectedMaterial}" rowKey="#{material.materialId}">
+                <f:facet name="header">
+                    Materiales Existentes
+                </f:facet>
+                <p:column headerText="Material Id">
+                    <h:outputText value="#{material.materialId}" />
+                </p:column>
+                <p:column headerText="Nombre Material">
+                    <h:outputText value="#{material.nombre}" />
+                </p:column>
+                <p:column headerText="Frecuencia">
+                    <h:outputText value="#{material.frecuencia}" />
+                </p:column>
+                <p:column headerText="Tipo Material">
+                    <h:outputText value="#{material.tipomaterialId.tipomaterialId}" />
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton id="btnVM" process="singleDT" update=":formMateriales:materialDetail" icon="ui-icon-search" oncomplete="PF('materialDialog').show()" />
+                    <p:commandButton id="btnVA" icon="ui-icon-calculator" value="#{matAnBean.idMaterial}" action="#{materialB.verAnalisis}" title="Ver analisis"/>
+                    <p:tooltip id="ttVerAn" for="btnVA" value="Ver Análisis de material" trackMouse="true"/>
+                    <p:tooltip id="ttVerMat" for="btnVM" value="Ver Material" trackMouse="true"/>
+                </f:facet>
+            </p:dataTable>
+            
+            <p:dialog header="Vista de Material" widgetVar="materialDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="materialDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty materialB.selectedMaterial}" columnClasses="label,value">
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{materialB.selectedMaterial.materialId}" />
+
+                        <h:outputText value="Nombre: " />
+                        <h:outputText value="#{materialB.selectedMaterial.nombre}" />
+
+                        <h:outputText value="Frecuencia:" />
+                        <h:outputText value="#{materialB.selectedMaterial.frecuencia}"/>
+
+                        <h:outputText value="Tipo Material: " />
+                        <h:outputText value="#{materialB.selectedMaterial.tipomaterialId.tipomaterialId}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>        
+    </h:body>
+</html>
+

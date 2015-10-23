@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Matriz de control de proceso</title>
+    </h:head>
+    <h:body>
+        <h:form id="headerCM">
+            <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>
+        </h:form>
+        <h:form id="dtable_process">
+            <p:dataTable id="ctrl_muestras" value="#{controlM.rows2}" var="count2">
+                <f:facet name="header">
+                    Muestras de procesos y empaque
+                </f:facet>
+                <p:columnGroup type="header">
+                    <p:row>
+                        <p:column rowspan="2" headerText="Hora" style="width: 10%"/>
+                        <p:column colspan="#{controlM.countAnalisis(1)}" headerText="Alveo"/>
+                        <p:column colspan="#{controlM.countAnalisis(2)}" headerText="Farino"/>
+                        <p:column colspan="#{controlM.countAnalisis(3)}" headerText="Fis/Qui"/>                           
+                        <p:column colspan="#{controlM.countAnalisis(4)}" headerText="Microb"/>
+                        <p:column colspan="#{controlM.countAnalisis(5)}" headerText="Sensorial"/>
+                        <p:column colspan="#{controlM.countAnalisis(6)}" headerText="Otros"/>
+                    </p:row>
+                    <p:row>
+                        <p:column headerText="alveo1"></p:column>
+                        <p:column headerText="alveo2"></p:column>
+                        <p:column headerText="alveo3"></p:column>
+                        <p:column headerText="farino1"></p:column>
+                        <p:column headerText="farino2"></p:column>
+                        <p:column headerText="fis1"></p:column>
+                        <p:column headerText="fis2"></p:column>
+                        <p:column headerText="micro1"></p:column>
+                        <p:column headerText="micro2"></p:column>
+                        <p:column headerText="sen1"></p:column>
+                        <p:column headerText="sen2"></p:column>
+                        <p:column headerText="otros1"></p:column>
+                        <p:column headerText="otros2"></p:column>
+                    </p:row>
+                </p:columnGroup>
+                <p:column>
+                    <p:outputLabel value="#{count2}"/>
+                </p:column>
+                <p:columns value="#{controlM.rows}" var="year">
+                    <h:outputText value="#{year}" />
+                </p:columns>
+                <p:columns value="#{controlM.rows}" var="year">
+                    <h:outputText value="#{year}" />
+                </p:columns>
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column footerText="Max" style="width: 10%"/> 
+                        <p:column footerText="maxal1"></p:column>
+                        <p:column footerText="maxal2"></p:column>
+                        <p:column footerText="maxal3"></p:column>
+                        <p:column footerText="maxfa1"></p:column>
+                        <p:column footerText="maxfa2"></p:column>
+                        <p:column footerText="maxfis1"></p:column>
+                        <p:column footerText="maxfis2"></p:column>
+                        <p:column footerText="maxmic1"></p:column>
+                        <p:column footerText="maxmic2"></p:column>
+                        <p:column footerText="maxsen1"></p:column>
+                        <p:column footerText="maxsen2"></p:column>
+                        <p:column footerText="maxotro1"></p:column>
+                        <p:column footerText="maxotro2"></p:column>                     
+                    </p:row>
+                    <p:row>
+                        <p:column footerText="Min" style="width: 10%"/>
+                        <p:column footerText="minal1"></p:column>
+                        <p:column footerText="minal2"></p:column>
+                        <p:column footerText="minal3"></p:column>
+                        <p:column footerText="minfa1"></p:column>
+                        <p:column footerText="minfa2"></p:column>
+                        <p:column footerText="minfis1"></p:column>
+                        <p:column footerText="minfis2"></p:column>
+                        <p:column footerText="minmic1"></p:column>
+                        <p:column footerText="minmic2"></p:column>
+                        <p:column footerText="minsen1"></p:column>
+                        <p:column footerText="minsen2"></p:column>
+                        <p:column footerText="minotro1"></p:column>
+                        <p:column footerText="minotro2"></p:column>
+                    </p:row>
+                </p:columnGroup>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

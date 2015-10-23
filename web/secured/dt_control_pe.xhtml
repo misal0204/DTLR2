@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Listado de documentos</title>
+    </h:head>
+    <h:body>
+        <h:form id="formCabecera">
+            <p:growl id="msgs" showDetail="true" />
+            <p:dialog header="Aprobar documento" widgetVar="docDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="docDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty documentosB.selectedDoc}">
+                        <f:facet name="header">
+                            <h:outputText value="¿Desea aprobar/desaprobar?"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+        <h:form id="formBody">
+            <p:layout fullPage="true">
+                <p:layoutUnit position="west" size="375" minSize="250" maxSize="450">
+                    <p:accordionPanel style="width: 400px">
+                        <p:tab title="Documentos por fecha" >
+                            <p:calendar id="inline" value="#{documentsB.tofecha}"  mode="inline" size="4" showWeek="true" disabledWeekends="false"  locale="es"/>
+                            <p:commandButton value="Buscar"  icon="ui-icon-check" action="#{documentsB.toFecha(documentsB.tofecha)}" />
+                        </p:tab>
+                        <p:tab title="Documentos por fechas">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel for="fecha_inicio" value="Inicio:" />
+                                <p:calendar id="fecha_inicio"  effect="fold"  locale="es" />
+                                <p:outputLabel for="fecha_fin" value="Fin:" />
+                                <p:calendar id="fecha_fin"  effect="fold"   locale="es" />
+                                <f:facet name="footer">
+                                    <h:commandButton value="Mostrar"/>
+                                </f:facet>
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    <p:menubar>
+                        <p:menuitem value="Crear documento" update=":formAdd:AddDocument" oncomplete="PF('diagAddDocument').show()"/>
+                    </p:menubar>
+                    <p:scrollPanel mode="native" style="width:100%;height:100%">
+                        <p:dataTable id="datableDocumentos" value="#{documentsB.documentos}" var="doc"
+                                     emptyMessage="No existen documentos"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,20"
+                                     filteredValue="#{documentsB.documentFiltered}"
+                                     widgetVar="docTable"
+                                     style="font-size: 15px;font-family: sans-serif; text-align: center"
+                                     selectionMode="single"
+                                     selection="#{documentsB.documentosSelected}" rowKey="#{doc.fecha}"
+                                     resizableColumns="true"
+                                     draggableColumns="true"
+                                     >
+                            <f:facet name="header">
+                                <h:outputText value="Documentos"/>
+                            </f:facet>
+                            <p:ajax event="rowSelect" listener="#{documentsB.onRowSelect}" update=":formCabecera:msgs" />
+                            <p:column style="width: 50px;text-align: center" headerText="View">                   
+                                <h:commandButton onclick="window.open('dl/controlprocess.xhtml')" value="ir"
+                                                 readonly="true">                                                                        
+                                    <f:setPropertyActionListener target="#{documentsB.docu}"  value="10002154"/>
+                                    <f:ajax execute="@form"/>
+                                </h:commandButton>
+                            </p:column>
+                            <p:column headerText="Fecha">
+                                <p:outputLabel value="#{documentsB.toDate(doc.fecha)}" />
+                            </p:column>
+                            <p:column headerText="F. Producción" sortBy="#{doc.fechaProd}">
+                                <p:outputLabel value="#{documentsB.toDate(doc.fechaProd)}" />
+                            </p:column>
+                            <p:column headerText="Documento" filterBy="#{doc.documento}" filterMatchMode="contains" sortBy="#{doc.documento}">
+                                <p:outputLabel value="#{doc.documento}" />
+                            </p:column>
+                            <p:column headerText="Centro" filterBy="#{doc.centroId.centroId}" sortBy="#{doc.centroId.centroId}" filterMatchMode="exact">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('docTable').filter()">
+                                        <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                                        <f:selectItems value="#{documentsB.centros}" var="cen" itemLabel="#{cen.centroId}" itemValue="#{cen.centroId}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <p:outputLabel value="#{doc.centroId.centroId}" />
+                            </p:column>
+                            <p:column headerText="Molino" filterBy="#{doc.molinoId.molinoId}" sortBy="#{doc.molinoId.molinoId}" filterMatchMode="exact">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('docTable').filter()">
+                                        <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                                        <f:selectItems value="#{documentsB.molinos}" var="mol" itemLabel="#{mol.nombre}" itemValue="#{mol.molinoId}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <p:outputLabel value="#{doc.molinoId.nombre}" />
+                            </p:column>
+                            <p:column headerText="Material" filterBy="#{doc.materialId.materialId}" filterMatchMode="contains">
+                                <p:outputLabel value="#{doc.materialId.materialId}" />
+                            </p:column>
+                            <p:column headerText="Muestra" filterBy="#{doc.muestraId.muestraId}" sortBy="#{doc.muestraId.muestraId}" filterMatchMode="exact">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('docTable').filter()">
+                                        <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                                        <f:selectItems value="#{documentsB.muestras}" var="mues" itemLabel="#{mues.nombre}" itemValue="#{mues.muestraId}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <p:outputLabel value="#{doc.muestraId.nombre}" />
+                            </p:column>
+                            <p:column headerText="Estado" filterBy="#{doc.estado}" filterMatchMode="exact">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu>
+                                        <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                                        <f:selectItem  itemLabel="A" itemValue="A"/>
+                                        <f:selectItem  itemLabel="N" itemValue="N"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <p:outputLabel value="#{doc.estado}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:scrollPanel>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+
+        <h:form id="formAdd">
+            <p:dialog header="Crear documento" widgetVar="diagAddDocument" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="AddDocument" style="text-align:center;">
+                    <p:panelGrid  columns="2" columnClasses="label,value">
+                        <h:outputText value="Documento:" />
+                        <h:inputText value="" />
+                        <h:outputText value="Pais: " />
+                        <p:selectOneMenu id="pais">
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItems value="#{documentsB.paises}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.paisId}"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="Centro:" />
+                        <p:selectOneMenu id="centro">
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItems value="#{documentsB.centros}" var="cen" itemLabel="#{cen.centroId}" itemValue="#{cen.centroId}"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="Molino: " />
+                        <p:selectOneMenu id="molino">
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItems value="#{documentsB.molinos}" var="mol" itemLabel="#{mol.nombre}" itemValue="#{mol.molinoId}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Muestra: " />
+                        <p:selectOneMenu id="muestra">
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItems value="#{documentsB.muestras}" var="mues" itemLabel="#{mues.nombre}" itemValue="#{mues.muestraId}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Lote: " />
+                        <h:inputText value="" />                        
+
+                        <h:outputText value="Material: " />
+                        <h:inputText id="materiaInput" value="" />
+
+                        <h:outputText value="Fecha: " />
+                        <h:outputText value="#{documentsB.toDate_now()}" />
+
+                        <h:outputText value="Fecha de producción: " />
+                        <p:calendar id="mask" pattern="dd-MM-yyyy" mask="true" />
+
+                        <h:outputText value="Estado: " />
+                        <h:inputText value="" />
+                    </p:panelGrid>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar" icon="ui-icon-disk"/>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+

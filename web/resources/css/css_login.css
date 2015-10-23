@@ -1,0 +1,151 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07-13-2015, 10:07:05 AM
+    Author     : Misael
+*/
+
+/* Estilo de página de login*/
+
+.panelGrid_login{
+    border-style: solid;
+    border-bottom-color:#FCB913;
+    border-left-color: #FCB913;
+    border-right-color: #FCB913;
+    border-top-color: #FCB913;
+    border-width: 5px;
+    background-color: #FEFAF9;
+    text-align: center;
+    alignment-adjust: middle; 
+    font-family: Arial; 
+    font-size: 15px
+}
+//Separador
+#separador{
+    color: #F0C51A;
+    border-style: groove;
+    border-width: 2px
+}
+
+
+/*Estilo de letras outputText del Login */
+.estiloText{
+    color: #DDA206;
+    font-family: Arial Narrow;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/*Estilo de titulo de panelgrid*/
+.estiloTextTitulo{
+    color: #DDA206;
+    font-family: Arial Narrow;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px; 
+}
+
+/*Estilo RadioButton*/
+.radioButton{
+    color: #DDA206;
+    font-family: Cambria;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px; 
+    position: static;
+}
+
+/*Estilo texto pie del panelgrid*/
+
+.textfooter{
+    font-family: 'Arial Narrow';
+    font-size: 15px;
+    font-style: normal;
+}
+/*Estilo de contenedor */
+
+.estilo_panel{
+    margin: 0;
+    font-family: Euphemia;
+    font-size: 50px;
+    font-style: normal;
+}
+
+.contenedor
+{
+    margin-top: 0;
+    text-align: center;
+    width: 100%;
+}
+
+/*Estilo de formulario principal*/
+
+.formulario
+{
+    background-color:white;
+    border-radius: 7px;
+    display: inline-block;
+    margin-top: 10%;
+    text-align: center;
+    vertical-align: middle;
+    width: 750px;
+}
+
+/*
+Estilo para boton de login
+*/
+
+.formulario input[type=submit]
+{
+    background-color: #FCB913;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4), 0px 0px 2px white inset;
+    color: white;
+    font-family: Cambria;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    height: 40px;
+    margin: 4px;
+    min-width: 225px;
+}
+
+.formulario input[type=submit]:hover
+{
+    background-color: #D84530;
+    cursor: pointer;
+}
+
+.formulario input[type=submit]:focus
+{
+    outline: #409FBA;
+}
+
+.formulario input[type=text], .formulario input[type=password]
+{
+    border: none;
+    border-radius: 4px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2) inset, -1px -1px 1px rgba(0, 0, 0, 0.1) inset, 0px 0px 2px white;
+    height: 20px;
+    margin: 5px;
+    min-width: 140px;
+    padding: 5px;
+    font-family: sans-serif;
+    font-style: italic;
+    font-size: 16px;
+}
+
+.formulario input[type=text]:focus, .formulario input[type=password]:focus
+{
+    outline: none;
+}
+
+.formulario input[type=text]:hover, .formulario input[type=password]:hover
+{
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2) inset, -1px -1px 1px rgba(0, 0, 0, 0.1) inset, 0px 0px 2px white, 0px 0px 2px rgba(0, 0, 0, 0.2);
+}

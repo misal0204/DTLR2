@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Parámetros generales</title>
+        <link rel="stylesheet" href="#{appB.baseUrl}/resources/css/css_parametros.css" type="text/css"/>
+    </h:head>
+    <h:body>
+        <h:form id="formHeader">
+            <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>               
+        </h:form>
+        <div class="contenedor">
+            <h:form class="formulario">                 
+                <h:panelGrid columns="2" class="panelGrid_parametros">
+                    <f:facet name="header">
+                        <p:outputLabel value="Parámetros generales"/>
+                    </f:facet>
+                    <h:commandButton id="btnUsuario" action="#{pmtGnB.irUsuarios()}" image="/resources/icons/sc_usuarios.png" class="button_sc_image" />               
+                    <h:commandButton id="btnMolino" action="#{pmtGnB.irMolinos()}" image="/resources/icons/sc_molino.png" class="button_sc_image"/>
+                    <h:commandButton id="btnDepto" action="#{pmtGnB.irDeptos()}" image="/resources/icons/sc_departamento.png" class="button_sc_image"/>
+                    <h:commandButton id="btnCentro" action="#{pmtGnB.irCentros()}" image="/resources/icons/sc_centro.png" class="button_sc_image" />
+                    <h:commandButton id="btnMuestra" action="#{pmtGnB.irMuestras()}" image="/resources/icons/sc_muestra.png" class="button_sc_image" />
+                    <h:commandButton id="btnUndMedida" action="#{pmtGnB.irUndMedida()}" image="/resources/icons/sc_unidad_medida.png" class="button_sc_image"/>
+                    
+                    <p:tooltip id="ttVerUser" for="btnUsuario" value="Usuarios" trackMouse="true"/>
+                    <p:tooltip id="ttVerMolino" for="btnMolino" value="Molinos" trackMouse="true"/>
+                    <p:tooltip id="ttVerDepto" for="btnDepto" value="Departamentos" trackMouse="true"/>
+                    <p:tooltip id="ttVerCentro" for="btnCentro" value="Centros" trackMouse="true"/>
+                    <p:tooltip id="ttVerMuestra" for="btnMuestra" value="Tipos de Muestras" trackMouse="true"/>
+                    <p:tooltip id="ttVerUndMedida" for="btnUndMedida" value="Unidades de Medida" trackMouse="true"/>
+                    
+                </h:panelGrid>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+

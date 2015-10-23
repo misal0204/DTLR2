@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="DTLR2PU_P" transaction-type="RESOURCE_LOCAL">
+    <non-jta-data-source>jdbc/padmin_local</non-jta-data-source>
+    <class>itmm.entities.DlDetmh</class>
+    <class>itmm.entities.DlEncamh</class>
+    <class>itmm.entities.ScAnalisis</class>
+    <class>itmm.entities.ScCentroPaises</class>
+    <class>itmm.entities.ScCentros</class>
+    <class>itmm.entities.ScDeptos</class>
+    <class>itmm.entities.ScEstados</class>
+    <class>itmm.entities.ScFormas</class>
+    <class>itmm.entities.ScMaterialAnalisis</class>
+    <class>itmm.entities.ScMaterialCentros</class>
+    <class>itmm.entities.ScMaterialMuestras</class>
+    <class>itmm.entities.ScMateriales</class>
+    <class>itmm.entities.ScMenus</class>
+    <class>itmm.entities.ScModulos</class>
+    <class>itmm.entities.ScMolinoCentros</class>
+    <class>itmm.entities.ScMolinos</class>
+    <class>itmm.entities.ScPaises</class>
+    <class>itmm.entities.ScPaisesAudita</class>
+    <class>itmm.entities.ScRolFormas</class>
+    <class>itmm.entities.ScRoles</class>
+    <class>itmm.entities.ScTipomateriales</class>
+    <class>itmm.entities.ScTipomuestras</class>
+    <class>itmm.entities.ScTpanalisis</class>
+    <class>itmm.entities.ScUndmedidas</class>
+    <class>itmm.entities.ScUsuarioPaises</class>
+    <class>itmm.entities.ScUsuarioRoles</class>
+    <class>itmm.entities.ScUsuarios</class>
+    <class>itmm.entities.ScUsuariosAudita</class>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <validation-mode>NONE</validation-mode>
+    <properties>
+      <property name="eclipselink.canonicalmodel.subpackage" value="one"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="DTLR2PU_Q" transaction-type="RESOURCE_LOCAL">
+    <jta-data-source>jdbc/qadmin_local</jta-data-source>
+    <class>itmm.entities.DlDetmh</class>
+    <class>itmm.entities.DlEncamh</class>
+    <class>itmm.entities.ScAnalisis</class>
+    <class>itmm.entities.ScCentroPaises</class>
+    <class>itmm.entities.ScCentros</class>
+    <class>itmm.entities.ScDeptos</class>
+    <class>itmm.entities.ScEstados</class>
+    <class>itmm.entities.ScFormas</class>
+    <class>itmm.entities.ScMaterialAnalisis</class>
+    <class>itmm.entities.ScMaterialCentros</class>
+    <class>itmm.entities.ScMaterialMuestras</class>
+    <class>itmm.entities.ScMateriales</class>
+    <class>itmm.entities.ScMenus</class>
+    <class>itmm.entities.ScModulos</class>
+    <class>itmm.entities.ScMolinoCentros</class>
+    <class>itmm.entities.ScMolinos</class>
+    <class>itmm.entities.ScPaises</class>
+    <class>itmm.entities.ScPaisesAudita</class>
+    <class>itmm.entities.ScRolFormas</class>
+    <class>itmm.entities.ScRoles</class>
+    <class>itmm.entities.ScTipomateriales</class>
+    <class>itmm.entities.ScTipomuestras</class>
+    <class>itmm.entities.ScTpanalisis</class>
+    <class>itmm.entities.ScUndmedidas</class>
+    <class>itmm.entities.ScUsuarioPaises</class>
+    <class>itmm.entities.ScUsuarioRoles</class>
+    <class>itmm.entities.ScUsuarios</class>
+    <class>itmm.entities.ScUsuariosAudita</class>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <validation-mode>NONE</validation-mode>
+    <properties>
+      <property name="eclipselink.canonicalmodel.subpackage" value="two"/>
+    </properties>
+  </persistence-unit>
+</persistence>

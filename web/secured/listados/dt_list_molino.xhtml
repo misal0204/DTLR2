@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Molinos</title>
+    </h:head>
+    <h:body>
+        <h:form id="formImgMol">
+            <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>
+            <p:panel header="Cuadro de molinos" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom: 20px">
+                <p:ajax event="toggle"/>
+                <h:panelGrid columns="3">
+                    <p:menuButton value="Acciones en tabla">
+                        <p:menuitem value="Agregar Molino" update=":formAdd:molinoAdd" oncomplete="PF('molinoAdd').show()"/>
+                    </p:menuButton>
+                    <p:menuButton value="Asignar molino a país">
+                        <p:menuitem value="Listado" update=":formListMC:mcList" oncomplete="PF('mcList').show()"/>
+                        <p:menuitem value="Agregar" />
+                    </p:menuButton>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <h:form id="formListMol">
+            <p:growl id="msg" showDetail="true"/>
+            <p:dataTable
+                id="dtMol"
+                var="mol" value="#{molinosB.listMolinos}"
+                selectionMode="single" selection="#{molinosB.selectedMolinos}"
+                rowKey="#{mol.molinoId}"
+                style="text-align: center"
+                emptyMessage="No existen Molinos"
+                paginator="true"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rows="4"
+                rowsPerPageTemplate="5,10,15"
+                resizableColumns="true"
+                draggableColumns="true"
+                editable="true"
+                widgetVar="listData">
+                <f:facet name="header">
+                    Molinos Existentes
+                </f:facet>
+                <p:ajax event="rowEdit" listener="#{molinosB.onRowEdit}" immediate="true" update=":formListMol:dtMol,:formListMol:msg"/>
+                <p:ajax event="rowEditCancel" listener="#{molinosB.onRowCancel}"  update=":formListMol:msg"/>
+                <p:column headerText="Edit" style="width: 25px;">
+                    <p:rowEditor />
+                </p:column>
+                <p:column headerText="Molino" filterBy="#{mol.molinoId}" filterMatchMode="contains" sortBy="#{mol.molinoId}">
+                    <p:cellEditor>
+                        <f:facet name="output"><p:outputLabel value="#{mol.molinoId}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{mol.molinoId}" required="true" /></f:facet>
+                    </p:cellEditor>              
+                </p:column>
+                <p:column headerText="Nombre" filterBy="#{mol.nombre}" filterMatchMode="contains" sortBy="#{mol.nombre}">
+                    <p:cellEditor>
+                        <f:facet name="output"><p:outputLabel value="#{mol.nombre}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{mol.nombre}" required="true" /></f:facet>
+                    </p:cellEditor>              
+                </p:column>
+                <p:column headerText="Descripción">
+                    <p:cellEditor>
+                        <f:facet name="output"><p:outputLabel value="#{mol.descripcion}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{mol.descripcion}" required="true" /></f:facet>
+                    </p:cellEditor>              
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form id="formAdd">
+            <p:dialog header="Agregar de Molino" widgetVar="molinoAdd" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="molinoAdd" style="text-align:center;">
+                    <p:panelGrid  columns="2" columnClasses="label,value">
+                        <h:outputText value="Molino: " />
+                        <h:inputText value="#{molinosB.inMolinos.molinoId}" required="true" />
+                        <h:outputText value="Nombre: " />
+                        <h:inputText value="#{molinosB.inMolinos.nombre}" required="true"/>
+                        <h:outputText value="Descripción: "/>
+                        <h:inputText value="#{molinosB.inMolinos.descripcion}" required="true"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar" icon="ui-icon-disk" action="#{molinosB.insertMolinos}" update=":formListMol:dtMol,formAdd,:formListMol:msg"/>
+                </f:facet>
+            </p:dialog>   
+        </h:form>
+
+        <h:form id="formListMC">
+            <p:dialog header="Asignar molino a centro" widgetVar="mcList" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="mcList" style="text-align:center;">                  
+                    <p:dataTable id="tableMC"
+                                 value="#{molinosB.listMolinoCentros}"
+                                 var="mc">
+                        <p:column headerText="Molino">
+                            <p:outputLabel value="#{mc.molinoId.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Centro">
+                            <p:outputLabel value="#{mc.centroId.centroId}"/>
+                        </p:column>
+                    </p:dataTable>                  
+                </p:outputPanel>
+            </p:dialog>   
+        </h:form>
+
+        <h:form id="formAddMC">
+            <p:dialog header="Asignar Molino a Centro" widgetVar="mcAdd" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="mcAdd" style="text-align:center;">
+                    <p:panelGrid  columns="2" columnClasses="label,value">
+                        <h:outputText value="Molino: " />
+                        <h:inputText value="#{molinosB.inMolinos.molinoId}" required="true" />
+                        <h:outputText value="Centro: " />
+                        <h:inputText value="#{molinosB.inMolinos.nombre}" required="true"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Guardar" icon="ui-icon-disk" action="#{molinosB.insertMolinos}" update=":formListMol:dtMol,formAdd,:formListMol:msg"/>
+                </f:facet>
+            </p:dialog>   
+        </h:form>
+    </h:body>
+</html>
+
