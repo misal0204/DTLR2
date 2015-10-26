@@ -111,7 +111,7 @@ public class ControlMuestra implements Serializable {
         TypedQuery<Long> query
                 = em.createNamedQuery("ScMaterialAnalisis.countAnalisis", Long.class);
         query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
-        query.setParameter("material", em.find(ScMateriales.class, String.valueOf("34000174")));
+        query.setParameter("material", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         long val = (long) query.getSingleResult();
 
@@ -130,7 +130,7 @@ public class ControlMuestra implements Serializable {
         TypedQuery<Long> query
                 = em.createNamedQuery("ScMaterialAnalisis.countAnalisis", Long.class);
         query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
-        query.setParameter("material", em.find(ScMateriales.class, String.valueOf("34000174")));
+        query.setParameter("material", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         long val = (long) query.getSingleResult();
 
@@ -151,7 +151,7 @@ public class ControlMuestra implements Serializable {
         TypedQuery<String> query
                 = em.createNamedQuery("ScMaterialAnalisis.readAnalisis", String.class);
         query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
-        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000174")));
+        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         List<String> val = query.getResultList();
         /*
@@ -170,7 +170,7 @@ public class ControlMuestra implements Serializable {
         TypedQuery<String> query
                 = em.createNamedQuery("ScMaterialAnalisis.readMaximo", String.class);
         query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
-        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000174")));
+        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         List<String> val = query.getResultList();
         /*
@@ -189,7 +189,7 @@ public class ControlMuestra implements Serializable {
         TypedQuery<String> query
                 = em.createNamedQuery("ScMaterialAnalisis.readMinimo", String.class);
         query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
-        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000174")));
+        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         List<String> val = query.getResultList();
         /*
