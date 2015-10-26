@@ -32,9 +32,7 @@ public class ControlMuestra implements Serializable {
     private List<Integer> rows;
     private List<Integer> rows2;
     private int coutAnalisis = 0;
-    
-    private boolean mostrar;
-    
+
     private String schema;
     private String usuario;
     private String pass;
@@ -108,8 +106,6 @@ public class ControlMuestra implements Serializable {
     public long countAnalisis(int tpanalisis) {
         em = emf.createEntityManager();
 
-        mostrar =false;
-        
         em.getTransaction().begin();
 
         TypedQuery<Long> query
@@ -118,12 +114,88 @@ public class ControlMuestra implements Serializable {
         query.setParameter("material", em.find(ScMateriales.class, String.valueOf("34000174")));
 
         long val = (long) query.getSingleResult();
-        
-        if(val!=0)
-        {
-            
+
+        em.close();
+        return val;
+    }
+
+    public boolean existe(int tpanalisis) {
+
+        em = emf.createEntityManager();
+
+        boolean mostrar = false;
+
+        em.getTransaction().begin();
+
+        TypedQuery<Long> query
+                = em.createNamedQuery("ScMaterialAnalisis.countAnalisis", Long.class);
+        query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
+        query.setParameter("material", em.find(ScMateriales.class, String.valueOf("34000174")));
+
+        long val = (long) query.getSingleResult();
+
+        if (val > 0) {
+            mostrar = true;
         }
-        
+
+        em.close();
+
+        return mostrar;
+    }
+
+    public List<String> findAnalisis(int tpanalisis) {
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        TypedQuery<String> query
+                = em.createNamedQuery("ScMaterialAnalisis.readAnalisis", String.class);
+        query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
+        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000174")));
+
+        List<String> val = query.getResultList();
+        /*
+         for (String a : val) {
+         System.out.println("analisis: " + a);
+         }*/
+        em.close();
+        return val;
+    }
+
+    public List<String> findAnalisisMax(int tpanalisis) {
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        TypedQuery<String> query
+                = em.createNamedQuery("ScMaterialAnalisis.readMaximo", String.class);
+        query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
+        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000174")));
+
+        List<String> val = query.getResultList();
+        /*
+         for (String a : val) {
+         System.out.println("analisis: " + a);
+         }*/
+        em.close();
+        return val;
+    }
+
+    public List<String> findAnalisisMin(int tpanalisis) {
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        TypedQuery<String> query
+                = em.createNamedQuery("ScMaterialAnalisis.readMinimo", String.class);
+        query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
+        query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000174")));
+
+        List<String> val = query.getResultList();
+        /*
+         for (String a : val) {
+         System.out.println("analisis: " + a);
+         }*/
         em.close();
         return val;
     }
@@ -142,10 +214,6 @@ public class ControlMuestra implements Serializable {
 
     public int row() {
         return 2;
-    }
-
-    public boolean existe() {
-        return false;
     }
 
     public List<Integer> getRows2() {
