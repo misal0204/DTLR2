@@ -6,6 +6,7 @@ import itmm.entities.ScTpanalisis;
 import itmm.util.MyUtil;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.List;
@@ -60,14 +61,21 @@ public class ControlMuestra implements Serializable {
             em = emf.createEntityManager();
 
             em.getTransaction().begin();
-            /*
-             TypedQuery<Long> query
-             = em.createNamedQuery("ScMaterialAnalisis.countAnalisis", Long.class);
-             query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(3)));
-             query.setParameter("material", em.find(ScMateriales.class, String.valueOf("34000174")));
+            
+             TypedQuery<BigInteger> query
+             = em.createNamedQuery("ScMaterialAnalisis.readNoMuestras", BigInteger.class);
+             query.setParameter("materialId", String.valueOf("34000173"));
 
-             long val = (long) query.getSingleResult();
-             System.out.println("Valor total: " + val);*/
+             BigInteger val = (BigInteger) query.getSingleResult();
+             int va1= val.intValue();
+             System.out.println("NoMuestras: " + val);
+             
+            rows2 = new ArrayList<Integer>();
+             
+        for(int i=1; i <= va1; i++){
+       
+            rows2.add(i);
+        }
 
         } catch (PersistenceException pe) {
             System.out.println("Mensaje error Control muestra bean: " + pe.getMessage());
@@ -80,27 +88,9 @@ public class ControlMuestra implements Serializable {
         } catch (NoSuchMethodError m) {
             System.out.println("NoSuchMethodError : " + m.getMessage());
         }
-
-        rows = new ArrayList<Integer>();
-        rows.add(1);
-        rows.add(2);
-        rows.add(3);
-        rows.add(4);
-        rows.add(5);
-
-        rows2 = new ArrayList<Integer>();
-        rows2.add(1);
-        rows2.add(2);
-        rows2.add(3);
-        rows2.add(4);
-        rows2.add(5);
-        rows2.add(6);
-        rows2.add(7);
-        rows2.add(8);
-        rows2.add(9);
-        rows2.add(10);
-        rows2.add(11);
+        
         //System.out.println("Rows: " + countAnalisis());
+        em.close();
     }
 
     public long countAnalisis(int tpanalisis) {
@@ -154,10 +144,7 @@ public class ControlMuestra implements Serializable {
         query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         List<String> val = query.getResultList();
-        /*
-         for (String a : val) {
-         System.out.println("analisis: " + a);
-         }*/
+
         em.close();
         return val;
     }
@@ -192,10 +179,7 @@ public class ControlMuestra implements Serializable {
         query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         List<String> val = query.getResultList();
-        /*
-         for (String a : val) {
-         System.out.println("analisis: " + a);
-         }*/
+
         em.close();
         return val;
     }

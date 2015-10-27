@@ -24,7 +24,8 @@ import javax.persistence.StoredProcedureParameter;
     @NamedQuery(name = "ScMaterialAnalisis.countAnalisis", query = "SELECT COUNT(DISTINCT ma.analisisId.analisisId) FROM ScMaterialAnalisis ma, ScAnalisis ana WHERE ana.tpanalisisId = :tpanalisis AND ma.materialId = :material AND ana.analisisId = ma.analisisId.analisisId"),
     @NamedQuery(name = "ScMaterialAnalisis.readAnalisis", query = "SELECT ana.nickName FROM ScMaterialAnalisis ma, ScAnalisis ana WHERE ma.analisisId.analisisId = ana.analisisId AND ana.tpanalisisId = :tpanalisis AND ma.materialId = :materialid"),
     @NamedQuery(name = "ScMaterialAnalisis.readMaximo", query = "SELECT ma.maximo FROM ScMaterialAnalisis ma, ScAnalisis ana WHERE ma.analisisId.analisisId = ana.analisisId AND ana.tpanalisisId = :tpanalisis AND ma.materialId = :materialid"),
-    @NamedQuery(name = "ScMaterialAnalisis.readMinimo", query = "SELECT ma.minimo FROM ScMaterialAnalisis ma, ScAnalisis ana WHERE ma.analisisId.analisisId = ana.analisisId AND ana.tpanalisisId = :tpanalisis AND ma.materialId = :materialid")
+    @NamedQuery(name = "ScMaterialAnalisis.readMinimo", query = "SELECT ma.minimo FROM ScMaterialAnalisis ma, ScAnalisis ana WHERE ma.analisisId.analisisId = ana.analisisId AND ana.tpanalisisId = :tpanalisis AND ma.materialId = :materialid"),
+    @NamedQuery(name = "ScMaterialAnalisis.readNoMuestras", query = "SELECT ma.nomuestras FROM ScMateriales ma WHERE ma.materialId = :materialId")
 })
 @NamedStoredProcedureQuery(
         name = "spcount",
