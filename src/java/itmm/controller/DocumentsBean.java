@@ -157,7 +157,7 @@ public class DocumentsBean implements Serializable {
     }
 
     public String irProceso() {
-        return "dl/controlprocess.xhtml?faces-redirect=true";
+        return "dt_control_muestras.xhtml?faces-redirect=true";
     }
 
     public List<ScMateriales> getMateriales() {

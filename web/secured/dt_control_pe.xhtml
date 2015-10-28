@@ -10,18 +10,12 @@
     <h:body>
         <h:form id="formCabecera">
             <p:growl id="msgs" showDetail="true" />
-            <p:dialog header="Aprobar documento" widgetVar="docDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="docDetail" style="text-align:center;">
-                    <p:panelGrid  columns="2" rendered="#{not empty documentosB.selectedDoc}">
-                        <f:facet name="header">
-                            <h:outputText value="¿Desea aprobar/desaprobar?"/>
-                        </f:facet>
-                    </p:panelGrid>
-                </p:outputPanel>
-            </p:dialog>
         </h:form>
         <h:form id="formBody">
             <p:layout fullPage="true">
+                <p:layoutUnit position="north" id="layoutunit_north">
+                    <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>
+                </p:layoutUnit>
                 <p:layoutUnit position="west" size="375" minSize="250" maxSize="450">
                     <p:accordionPanel style="width: 400px">
                         <p:tab title="Documentos por fecha" >
@@ -64,11 +58,7 @@
                             </f:facet>
                             <p:ajax event="rowSelect" listener="#{documentsB.onRowSelect}" update=":formCabecera:msgs" />
                             <p:column style="width: 50px;text-align: center" headerText="View">                   
-                                <h:commandButton onclick="window.open('dl/controlprocess.xhtml')" value="ir"
-                                                 readonly="true">                                                                        
-                                    <f:setPropertyActionListener target="#{documentsB.docu}"  value="10002154"/>
-                                    <f:ajax execute="@form"/>
-                                </h:commandButton>
+                                <h:commandButton value="ir" action="#{documentsB.irProceso()}" />
                             </p:column>
                             <p:column headerText="Fecha">
                                 <p:outputLabel value="#{documentsB.toDate(doc.fecha)}" />
@@ -95,7 +85,7 @@
                                         <f:selectItems value="#{documentsB.molinos}" var="mol" itemLabel="#{mol.nombre}" itemValue="#{mol.molinoId}"/>
                                     </p:selectOneMenu>
                                 </f:facet>
-                                <p:outputLabel value="#{doc.molinoId.nombre}" />
+                                <p:outputLabel value="#{doc.molinoId.molinoId}" />
                             </p:column>
                             <p:column headerText="Material" filterBy="#{doc.materialId.materialId}" filterMatchMode="contains">
                                 <p:outputLabel value="#{doc.materialId.materialId}" />
@@ -107,17 +97,17 @@
                                         <f:selectItems value="#{documentsB.muestras}" var="mues" itemLabel="#{mues.nombre}" itemValue="#{mues.muestraId}"/>
                                     </p:selectOneMenu>
                                 </f:facet>
-                                <p:outputLabel value="#{doc.muestraId.nombre}" />
+                                <p:outputLabel value="#{doc.muestraId.muestraId}" />
                             </p:column>
-                            <p:column headerText="Estado" filterBy="#{doc.estado}" filterMatchMode="exact">
+                            <p:column headerText="Estado" filterBy="#{doc.estado}" sortBy="#{doc.estado}" filterMatchMode="exact">
                                 <f:facet name="filter">
-                                    <p:selectOneMenu>
+                                    <p:selectOneMenu onchange="PF('docTable').filter">
                                         <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
                                         <f:selectItem  itemLabel="A" itemValue="A"/>
                                         <f:selectItem  itemLabel="N" itemValue="N"/>
                                     </p:selectOneMenu>
                                 </f:facet>
-                                <p:outputLabel value="#{doc.estado}" />
+                                <p:outputLabel value="#{doc.estado.estadoId}" />
                             </p:column>
                         </p:dataTable>
                     </p:scrollPanel>
@@ -134,23 +124,23 @@
                         <h:inputText value="" />
                         <h:outputText value="Pais: " />
                         <p:selectOneMenu id="pais">
-                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
                             <f:selectItems value="#{documentsB.paises}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.paisId}"/>
                         </p:selectOneMenu>
                         <h:outputText value="Centro:" />
                         <p:selectOneMenu id="centro">
-                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
                             <f:selectItems value="#{documentsB.centros}" var="cen" itemLabel="#{cen.centroId}" itemValue="#{cen.centroId}"/>
                         </p:selectOneMenu>
                         <h:outputText value="Molino: " />
                         <p:selectOneMenu id="molino">
-                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
                             <f:selectItems value="#{documentsB.molinos}" var="mol" itemLabel="#{mol.nombre}" itemValue="#{mol.molinoId}"/>
                         </p:selectOneMenu>
 
                         <h:outputText value="Muestra: " />
                         <p:selectOneMenu id="muestra">
-                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
                             <f:selectItems value="#{documentsB.muestras}" var="mues" itemLabel="#{mues.nombre}" itemValue="#{mues.muestraId}"/>
                         </p:selectOneMenu>
 
