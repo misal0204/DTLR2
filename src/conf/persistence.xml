@@ -3,6 +3,7 @@
   <persistence-unit name="DTLR2PU_P" transaction-type="RESOURCE_LOCAL">
     <non-jta-data-source>jdbc/padmin_local</non-jta-data-source>
     <class>itmm.entities.DlDetmh</class>
+    <class>itmm.entities.DlTDetmh</class>
     <class>itmm.entities.DlEncamh</class>
     <class>itmm.entities.ScAnalisis</class>
     <class>itmm.entities.ScCentroPaises</class>
@@ -39,6 +40,7 @@
   <persistence-unit name="DTLR2PU_Q" transaction-type="RESOURCE_LOCAL">
     <jta-data-source>jdbc/qadmin_local</jta-data-source>
     <class>itmm.entities.DlDetmh</class>
+    <class>itmm.entities.DlTDetmh</class>
     <class>itmm.entities.DlEncamh</class>
     <class>itmm.entities.ScAnalisis</class>
     <class>itmm.entities.ScCentroPaises</class>

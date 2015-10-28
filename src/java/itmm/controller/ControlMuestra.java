@@ -1,6 +1,7 @@
 package itmm.controller;
 
 import itmm.database.DBConnection;
+import itmm.entities.DlEncamh;
 import itmm.entities.ScMateriales;
 import itmm.entities.ScTpanalisis;
 import itmm.util.MyUtil;
@@ -31,7 +32,7 @@ public class ControlMuestra implements Serializable {
     StoredProcedureQuery q = null;
 
     private List<Integer> rows;
-    private List<Integer> rows2;
+    private List<Integer> NoMuestras;
     private int coutAnalisis = 0;
 
     private String schema;
@@ -61,21 +62,21 @@ public class ControlMuestra implements Serializable {
             em = emf.createEntityManager();
 
             em.getTransaction().begin();
-            
-             TypedQuery<BigInteger> query
-             = em.createNamedQuery("ScMaterialAnalisis.readNoMuestras", BigInteger.class);
-             query.setParameter("materialId", String.valueOf("34000173"));
 
-             BigInteger val = (BigInteger) query.getSingleResult();
-             int va1= val.intValue();
-             System.out.println("NoMuestras: " + val);
-             
-            rows2 = new ArrayList<Integer>();
-             
-        for(int i=1; i <= va1; i++){
-       
-            rows2.add(i);
-        }
+            TypedQuery<BigInteger> query
+                    = em.createNamedQuery("ScMaterialAnalisis.readNoMuestras", BigInteger.class);
+            query.setParameter("materialId", String.valueOf("34000173"));
+
+            BigInteger val = (BigInteger) query.getSingleResult();
+            int va1 = val.intValue();
+            //System.out.println("NoMuestras: " + val);
+
+            NoMuestras = new ArrayList<Integer>();
+
+            for (int i = 1; i <= va1; i++) {
+
+                NoMuestras.add(i);
+            }
 
         } catch (PersistenceException pe) {
             System.out.println("Mensaje error Control muestra bean: " + pe.getMessage());
@@ -88,7 +89,6 @@ public class ControlMuestra implements Serializable {
         } catch (NoSuchMethodError m) {
             System.out.println("NoSuchMethodError : " + m.getMessage());
         }
-        
         //System.out.println("Rows: " + countAnalisis());
         em.close();
     }
@@ -184,6 +184,26 @@ public class ControlMuestra implements Serializable {
         return val;
     }
 
+    public List<Double> findDTAnalisis(int tpanalisis) {
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        TypedQuery<Double> query
+                = em.createNamedQuery("DlTDetmh.analisisByTp", Double.class);
+        query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
+        query.setParameter("doc", em.find(DlEncamh.class, "100000001009"));
+
+        List<Double> val = query.getResultList();
+        int aa=1;
+        for (Double a : val) {
+            System.out.println("valor de analisis: " + aa++);
+        }
+
+        em.close();
+        return val;
+    }
+
     public ControlMuestra() {
 
     }
@@ -196,12 +216,8 @@ public class ControlMuestra implements Serializable {
         this.coutAnalisis = coutAnalisis;
     }
 
-    public int row() {
-        return 2;
-    }
-
-    public List<Integer> getRows2() {
-        return rows2;
+    public List<Integer> getNoMuestras() {
+        return NoMuestras;
     }
 
     public List<Integer> getRows() {
