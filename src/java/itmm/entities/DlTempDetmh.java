@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package itmm.entities;
 
 import java.io.Serializable;
@@ -13,12 +18,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 @Entity
-@Table(name = "DL_TDETMH")
+@Table(name = "DL_TEMPDETMH")
 @NamedQueries({
-    @NamedQuery(name = "DlTDetmh.findAll", query = "SELECT d FROM DlTDetmh d"),
-    @NamedQuery(name = "DlTDetmh.analisisByTp", query = "SELECT dtd.valor, an.analisisId FROM DlTDetmh dtd, ScAnalisis an WHERE dtd.analisisId.analisisId = an.analisisId AND an.tpanalisisId= :tpanalisis AND dtd.documento= :doc")    
+    @NamedQuery(name = "DlTempDetmh.findAll", query = "SELECT d FROM DlTempDetmh d"),
+    @NamedQuery(name = "DlTempDetmh.findDoc", query = "SELECT d FROM DlTempDetmh d WHERE d.documento=:doc"),
+    @NamedQuery(name = "DlTempDetmh.analisisByTp", query = "SELECT dtd.valor FROM DlTempDetmh dtd, ScAnalisis an WHERE dtd.analisisId.analisisId = an.analisisId AND an.tpanalisisId= :tpanalisis AND dtd.documento= :doc AND dtd.nmuestra= :muestra"),
+    @NamedQuery(name = "DlTempDetmh.countByTp", query = "SELECT COUNT(dtd.valor) FROM DlTempDetmh dtd, ScAnalisis an WHERE dtd.analisisId.analisisId = an.analisisId AND an.tpanalisisId.tpanalisisId = :tpanalisis AND dtd.documento.documento = :doc AND dtd.nmuestra= :muestra")
 })
-public class DlTDetmh implements Serializable {
+public class DlTempDetmh implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,6 +48,9 @@ public class DlTDetmh implements Serializable {
     @JoinColumn(name = "ANALISIS_ID", referencedColumnName = "ANALISIS_ID")
     @ManyToOne
     private ScAnalisis analisisId;
+
+    @Column(name = "NMUESTRA")
+    private double nmuestra;
 
     @Column(name = "VALOR")
     private double valor;
@@ -91,6 +101,14 @@ public class DlTDetmh implements Serializable {
         this.analisisId = analisisId;
     }
 
+    public double getNmuestra() {
+        return nmuestra;
+    }
+
+    public void setNmuestra(double nmuestra) {
+        this.nmuestra = nmuestra;
+    }
+
     public double getValor() {
         return valor;
     }
@@ -115,4 +133,7 @@ public class DlTDetmh implements Serializable {
         this.maximo = maximo;
     }
 
+    public int getAnalisis() {
+        return 2;
+    }
 }

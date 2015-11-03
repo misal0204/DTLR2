@@ -2,16 +2,18 @@ package itmm.controller;
 
 import itmm.database.DBConnection;
 import itmm.entities.DlEncamh;
+import itmm.entities.DlTempDetmh;
 import itmm.entities.ScMateriales;
 import itmm.entities.ScTpanalisis;
+import itmm.process.ProcessPacking;
 import itmm.util.MyUtil;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedProperty;
@@ -33,7 +35,13 @@ public class ControlMuestra implements Serializable {
 
     private List<Integer> rows;
     private List<Integer> NoMuestras;
+    private List<DlTempDetmh> NoMateriales;
+    private List<ProcessPacking> NMuestras;
+    
     private int coutAnalisis = 0;
+
+    private Integer NoM;
+    private Integer n = 0;
 
     private String schema;
     private String usuario;
@@ -61,21 +69,18 @@ public class ControlMuestra implements Serializable {
             emf = Persistence.createEntityManagerFactory(NPU, property);
             em = emf.createEntityManager();
 
-            em.getTransaction().begin();
-
             TypedQuery<BigInteger> query
                     = em.createNamedQuery("ScMaterialAnalisis.readNoMuestras", BigInteger.class);
             query.setParameter("materialId", String.valueOf("34000173"));
 
             BigInteger val = (BigInteger) query.getSingleResult();
             int va1 = val.intValue();
-            //System.out.println("NoMuestras: " + val);
-
-            NoMuestras = new ArrayList<Integer>();
-
+            NoM = va1;
+            
+            NMuestras= new ArrayList<ProcessPacking>();
             for (int i = 1; i <= va1; i++) {
-
-                NoMuestras.add(i);
+                
+                NMuestras.add(new ProcessPacking(i));
             }
 
         } catch (PersistenceException pe) {
@@ -89,8 +94,51 @@ public class ControlMuestra implements Serializable {
         } catch (NoSuchMethodError m) {
             System.out.println("NoSuchMethodError : " + m.getMessage());
         }
-        //System.out.println("Rows: " + countAnalisis());
         em.close();
+    }
+
+    public ControlMuestra() {
+    }
+
+    public List<DlTempDetmh> listadoDeMuestras() {
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        TypedQuery<DlTempDetmh> query
+                = em.createNamedQuery("DlTempDetmh.findAll", DlTempDetmh.class);
+        List<DlTempDetmh> val = query.getResultList();
+        NoMateriales = val;
+
+        return val;
+    }
+
+    public long countTpAnalisis() {
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        TypedQuery<Long> query
+                = em.createNamedQuery("ScTpanalisis.countTpanalisis", Long.class);
+        long val = (long) query.getSingleResult();
+        System.out.println("tpanalisis: " + val);
+        em.close();
+        return val;
+    }
+
+    public String nameTpAnalisis(int tpanalisis) {
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        TypedQuery<String> query
+                = em.createNamedQuery("ScTpanalisis.nameTpanalisis", String.class);
+        query.setParameter("tpanalisis_id", tpanalisis);
+        String name = query.getSingleResult();
+
+        //System.out.println("tpanalisis: " + name);
+        em.close();
+        return name;
     }
 
     public long countAnalisis(int tpanalisis) {
@@ -104,7 +152,7 @@ public class ControlMuestra implements Serializable {
         query.setParameter("material", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         long val = (long) query.getSingleResult();
-
+        //System.out.println("tpanalisis existent: " + val);
         em.close();
         return val;
     }
@@ -127,10 +175,48 @@ public class ControlMuestra implements Serializable {
         if (val > 0) {
             mostrar = true;
         }
-
         em.close();
 
         return mostrar;
+    }
+
+    public boolean existeAnalisis(int tpanalisis, int nmuestra) {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        boolean existe=false;
+        
+        TypedQuery<Long> query
+                = em.createNamedQuery("DlTempDetmh.countByTp", Long.class);
+        query.setParameter("tpanalisis", tpanalisis);
+        query.setParameter("doc", "100000001011");
+        query.setParameter("muestra", nmuestra);
+        
+        long val = (long) query.getSingleResult();
+        // System.out.println("tpanalisis: " + val);
+        
+        if(val > 0)
+        {
+            existe=true;
+        }
+        em.close();
+        return existe;
+    }
+
+    public long countAnalisis() {
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        TypedQuery<Long> query
+                = em.createNamedQuery("DlTempDetmh.countByTp", Long.class);
+        query.setParameter("tpanalisis", 3);
+        query.setParameter("doc", "100000001011");
+        query.setParameter("muestra", 1);
+        long val = (long) query.getSingleResult();
+        System.out.println("count tpanalisis: " + val);
+        em.close();
+        return val;
     }
 
     public List<String> findAnalisis(int tpanalisis) {
@@ -160,10 +246,7 @@ public class ControlMuestra implements Serializable {
         query.setParameter("materialid", em.find(ScMateriales.class, String.valueOf("34000173")));
 
         List<String> val = query.getResultList();
-        /*
-         for (String a : val) {
-         System.out.println("analisis: " + a);
-         }*/
+
         em.close();
         return val;
     }
@@ -184,28 +267,73 @@ public class ControlMuestra implements Serializable {
         return val;
     }
 
-    public List<Double> findDTAnalisis(int tpanalisis) {
+    public List<Double> findDTAnalisis(int tpanalisis, int nmuestras) {
         em = emf.createEntityManager();
-
         em.getTransaction().begin();
+        nmuestras++;
+        System.out.println("nmuestra: "+nmuestras+" repeat: "+(coutAnalisis++));
+        System.out.println("tpanalisis: "+tpanalisis);
+        
+        List<Double> val = null;
 
-        TypedQuery<Double> query
-                = em.createNamedQuery("DlTDetmh.analisisByTp", Double.class);
-        query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
-        query.setParameter("doc", em.find(DlEncamh.class, "100000001009"));
+        try {
 
-        List<Double> val = query.getResultList();
-        int aa=1;
-        for (Double a : val) {
-            System.out.println("valor de analisis: " + aa++);
+            TypedQuery<Double> query
+                    = em.createNamedQuery("DlTempDetmh.analisisByTp", Double.class);
+            query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
+            query.setParameter("doc", em.find(DlEncamh.class, "100000001011"));
+            query.setParameter("muestra", BigDecimal.valueOf(nmuestras));
+
+            val = query.getResultList();
+            System.out.println("Valor analisis: ");
+            for (Double a : val) {
+                System.out.print(a + " ");
+            }
+
+            System.out.println();
+        } catch (PersistenceException pe) {
+            System.out.println("Mensaje Persistence: " + pe.getMessage());
         }
-
         em.close();
         return val;
     }
 
-    public ControlMuestra() {
 
+    public List<Double> valorAnalisis() {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        TypedQuery<Double> query
+                = em.createNamedQuery("DlTempDetmh.analisisByTp", Double.class);
+        query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(3)));
+        query.setParameter("doc", em.find(DlEncamh.class, String.valueOf("100000001011")));
+        query.setParameter("muestra", 1);
+
+        List<Double> valAnalisis = query.getResultList();
+
+        for (Double a : valAnalisis) {
+            System.out.print("-" + a + "-");
+        }
+
+        em.close();
+
+        return valAnalisis;
+    }
+    
+    public List<ProcessPacking> getNMuestras() {
+        return NMuestras;
+    }
+
+    public Integer getNoM() {
+        return NoM;
+    }
+
+    public void setNoM(Integer NoM) {
+        this.NoM = NoM;
+    }
+
+    public List<DlTempDetmh> getNoMateriales() {
+        return NoMateriales;
     }
 
     public int getCoutAnalisis() {
@@ -235,5 +363,4 @@ public class ControlMuestra implements Serializable {
     public void setAttb(AuthenticationBean attb) {
         this.attb = attb;
     }
-
 }

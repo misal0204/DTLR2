@@ -15,94 +15,58 @@
         </h:form>
         <p:scrollPanel style="width: max-content; height: 100%" mode="native">
             <h:form id="dtable_process">
-                <p:dataTable id="ctrl_muestras" value="#{controlM.noMuestras}" var="noMuestras"
-                             draggableColumns="true"
-                             style="text-align: center"
-                             >
+                <p:dataTable id="ctrl_muestras" value="#{controlM.NMuestras}" var="noM"
+                             style="text-align: center">
                     <f:facet name="header">
                         Muestras de procesos y empaque
                     </f:facet>
                     <p:columnGroup type="header">
                         <p:row>
                             <p:column rowspan="2" headerText="NoMuestra" style="width: 10%"/>
-                            <p:column rowspan="2" headerText="Hora" style="width: 10%"/>
-                            <p:column colspan="#{controlM.countAnalisis(3)}" headerText="Fis/Qui" rendered="#{controlM.existe(3)}" style="background: greenyellow;color: black;"/>
-                            <p:column colspan="#{controlM.countAnalisis(1)}" headerText="Farino" rendered="#{controlM.existe(1)}" style="background: lightsalmon;color: black; "/>
-                            <p:column colspan="#{controlM.countAnalisis(2)}" headerText="Alveo" rendered="#{controlM.existe(2)}" style="background: green;color: black; "/>                           
-                            <p:column colspan="#{controlM.countAnalisis(4)}" headerText="Microb" rendered="#{controlM.existe(4)}" style="background: tomato;color: black;"/>
-                            <p:column colspan="#{controlM.countAnalisis(5)}" headerText="Sensorial" rendered="#{controlM.existe(5)}" style="background: coral;color: black;"/>
-                            <p:column colspan="#{controlM.countAnalisis(6)}" headerText="Otros" rendered="#{controlM.existe(6)}" style="background: silver;color: black; "/>
+                            <p:column rowspan="2" headerText="Hora" style="width: 10%"/>                            
+                            <c:forEach var="tpanalisis_id"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                                <p:column colspan="#{controlM.countAnalisis(tpanalisis_id)}" headerText="#{controlM.nameTpAnalisis(tpanalisis_id)}" rendered="#{controlM.existe(tpanalisis_id)}" style="background: greenyellow;color: black;"/>
+                            </c:forEach>
                         </p:row>
                         <p:row>
-                            <c:forEach items="#{controlM.findAnalisis(3)}" var="analisis" rendered="#{controlM.existe(3)}">
-                                <p:column headerText="#{analisis}" width="50%"/>
+                            <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                                <c:forEach items="#{controlM.findAnalisis(tpanalisis)}" var="analisis" rendered="#{controlM.existe(tpanalisis)}">
+                                    <p:column headerText="#{analisis}" width="50%"/>
+                                </c:forEach>
                             </c:forEach>
-                            <c:forEach items="#{controlM.findAnalisis(1)}" var="analisis" rendered="#{controlM.existe(1)}">
-                                <p:column headerText="#{analisis}" width="50%"/>
-                            </c:forEach>
-                            <c:forEach items="#{controlM.findAnalisis(2)}" var="analisis" rendered="#{controlM.existe(2)}">
-                                <p:column headerText="#{analisis}" width="50%"/>
-                            </c:forEach>
-                            <c:forEach items="#{controlM.findAnalisis(4)}" var="analisis" rendered="#{controlM.existe(4)}">
-                                <p:column headerText="#{analisis}" width="50%"/>
-                            </c:forEach>
-                            <c:forEach items="#{controlM.findAnalisis(5)}" var="analisis" rendered="#{controlM.existe(5)}">
-                                <p:column headerText="#{analisis}" width="50%"/>
-                            </c:forEach>
-                            <c:forEach items="#{controlM.findAnalisis(6)}" var="analisis" rendered="#{controlM.existe(6)}">
-                                <p:column headerText="#{analisis}" width="50%"/>
-                            </c:forEach>                        
                         </p:row>
                     </p:columnGroup>
+
                     <p:column>
-                        <p:outputLabel value="#{noMuestras}"/>
+                        <p:outputLabel value="#{noM.noMuestra}"/>
                     </p:column>
                     <p:column>
-                        <p:outputLabel value="#{noMuestras}"/>
+                        <p:outputLabel value="#{noM.noMuestra}"/>
                     </p:column>
+
+                    <c:forEach var="tpanalisis_id"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                        <p:columns value="#{controlM.findDTAnalisis(tpanalisis_id, 3)}" var="valor_analisis" rendered="#{controlM.existeAnalisis(tpanalisis_id, 3)}">
+                            <h:outputText value="#{valor_analisis}"/>
+                        </p:columns>
+                    </c:forEach>    
+                    
                     <p:columnGroup type="footer">
                         <p:row>
                             <p:column rowspan="2" footerText="Parámetros" style="width: 10%"/>
                             <p:column footerText="Max" style="width: 10%"/> 
-                            <c:forEach items="#{controlM.findAnalisisMax(3)}" var="analisis_max" rendered="#{controlM.existe(3)}">
-                                <p:column footerText="#{analisis_max}" style="width:15%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMax(1)}" var="analisis_max" rendered="#{controlM.existe(1)}">
-                                <p:column footerText="#{analisis_max}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMax(2)}" var="analisis_max" rendered="#{controlM.existe(2)}">
-                                <p:column footerText="#{analisis_max}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMax(4)}" var="analisis_max" rendered="#{controlM.existe(4)}">
-                                <p:column footerText="#{analisis_max}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMax(5)}" var="analisis_max" rendered="#{controlM.existe(5)}">
-                                <p:column footerText="#{analisis_max}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMax(6)}" var="analisis_max" rendered="#{controlM.existe(6)}">
-                                <p:column footerText="#{analisis_max}" style="width:25%"/>
-                            </c:forEach>  
+                            <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                                <c:forEach items="#{controlM.findAnalisisMax(tpanalisis)}" var="analisis_max" rendered="#{controlM.existe(tpanalisis)}">
+                                    <p:column footerText="#{analisis_max}" style="width:15%"/>
+                                </c:forEach>
+                            </c:forEach>
                         </p:row>
                         <p:row>
                             <p:column footerText="Min" style="width: 10%"/>
-                            <c:forEach items="#{controlM.findAnalisisMin(3)}" var="analisis_min" rendered="#{controlM.existe(3)}">
-                                <p:column footerText="#{analisis_min}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMin(1)}" var="analisis_min" rendered="#{controlM.existe(1)}">
-                                <p:column footerText="#{analisis_min}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMin(2)}" var="analisis_min" rendered="#{controlM.existe(2)}">
-                                <p:column footerText="#{analisis_min}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMin(4)}" var="analisis_min" rendered="#{controlM.existe(4)}">
-                                <p:column footerText="#{analisis_min}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMin(5)}" var="analisis_min" rendered="#{controlM.existe(5)}">
-                                <p:column footerText="#{analisis_min}" style="width:25%"/>
-                            </c:forEach>  
-                            <c:forEach items="#{controlM.findAnalisisMin(6)}" var="analisis_min" rendered="#{controlM.existe(6)}">
-                                <p:column footerText="#{analisis_min}" style="width:25%"/>
-                            </c:forEach>  
+                            <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                                <c:forEach items="#{controlM.findAnalisisMin(tpanalisis)}" var="analisis_min" rendered="#{controlM.existe(tpanalisis)}">
+                                    <p:column footerText="#{analisis_min}" style="width:25%"/>
+                                </c:forEach>
+                            </c:forEach>
                         </p:row>
                     </p:columnGroup>
                 </p:dataTable>
