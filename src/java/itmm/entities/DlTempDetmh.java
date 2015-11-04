@@ -23,7 +23,9 @@ import javax.persistence.Temporal;
     @NamedQuery(name = "DlTempDetmh.findAll", query = "SELECT d FROM DlTempDetmh d"),
     @NamedQuery(name = "DlTempDetmh.findDoc", query = "SELECT d FROM DlTempDetmh d WHERE d.documento=:doc"),
     @NamedQuery(name = "DlTempDetmh.analisisByTp", query = "SELECT dtd.valor FROM DlTempDetmh dtd, ScAnalisis an WHERE dtd.analisisId.analisisId = an.analisisId AND an.tpanalisisId= :tpanalisis AND dtd.documento= :doc AND dtd.nmuestra= :muestra"),
-    @NamedQuery(name = "DlTempDetmh.countByTp", query = "SELECT COUNT(dtd.valor) FROM DlTempDetmh dtd, ScAnalisis an WHERE dtd.analisisId.analisisId = an.analisisId AND an.tpanalisisId.tpanalisisId = :tpanalisis AND dtd.documento.documento = :doc AND dtd.nmuestra= :muestra")
+    @NamedQuery(name = "DlTempDetmh.analisisByTpF", query = "SELECT dtd.valor FROM DlTempDetmh dtd, ScAnalisis an WHERE dtd.analisisId.analisisId = an.analisisId AND an.tpanalisisId= :tpanalisis AND dtd.documento= :doc AND dtd.nmuestra= :muestra AND dtd.fecha= :fecha"),
+    @NamedQuery(name = "DlTempDetmh.countByTp", query = "SELECT COUNT(dtd.valor) FROM DlTempDetmh dtd, ScAnalisis an WHERE dtd.analisisId.analisisId = an.analisisId AND an.tpanalisisId.tpanalisisId = :tpanalisis AND dtd.documento.documento = :doc AND dtd.nmuestra= :muestra"),
+    @NamedQuery(name = "DlTempDetmh.findDate", query = "SELECT DISTINCT d.fecha FROM DlTempDetmh d ORDER BY d.fecha"),
 })
 public class DlTempDetmh implements Serializable {
 

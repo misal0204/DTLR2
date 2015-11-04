@@ -10,6 +10,11 @@ import itmm.util.MyUtil;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.Format;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -37,7 +42,7 @@ public class ControlMuestra implements Serializable {
     private List<Integer> NoMuestras;
     private List<DlTempDetmh> NoMateriales;
     private List<ProcessPacking> NMuestras;
-    
+
     private int coutAnalisis = 0;
 
     private Integer NoM;
@@ -76,10 +81,10 @@ public class ControlMuestra implements Serializable {
             BigInteger val = (BigInteger) query.getSingleResult();
             int va1 = val.intValue();
             NoM = va1;
-            
-            NMuestras= new ArrayList<ProcessPacking>();
+
+            NMuestras = new ArrayList<ProcessPacking>();
             for (int i = 1; i <= va1; i++) {
-                
+
                 NMuestras.add(new ProcessPacking(i));
             }
 
@@ -184,20 +189,19 @@ public class ControlMuestra implements Serializable {
         em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        boolean existe=false;
-        
+        boolean existe = false;
+
         TypedQuery<Long> query
                 = em.createNamedQuery("DlTempDetmh.countByTp", Long.class);
         query.setParameter("tpanalisis", tpanalisis);
         query.setParameter("doc", "100000001011");
         query.setParameter("muestra", nmuestra);
-        
+
         long val = (long) query.getSingleResult();
         // System.out.println("tpanalisis: " + val);
-        
-        if(val > 0)
-        {
-            existe=true;
+
+        if (val > 0) {
+            existe = true;
         }
         em.close();
         return existe;
@@ -267,22 +271,27 @@ public class ControlMuestra implements Serializable {
         return val;
     }
 
-    public List<Double> findDTAnalisis(int tpanalisis, int nmuestras) {
+    public List<Double> findDTAnalisis(int tpanalisis, int nmuestras) throws ParseException {
         em = emf.createEntityManager();
         em.getTransaction().begin();
         nmuestras++;
-        System.out.println("nmuestra: "+nmuestras+" repeat: "+(coutAnalisis++));
-        System.out.println("tpanalisis: "+tpanalisis);
-        
+        System.out.println("nmuestra: " + nmuestras + " repeat: " + (coutAnalisis++));
+        System.out.println("tpanalisis: " + tpanalisis);
+
+        SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd");
+        String fecha = "2015-10-28";
+        Date f = null;
+        f = (Date) format.parse(fecha);
         List<Double> val = null;
 
         try {
 
             TypedQuery<Double> query
-                    = em.createNamedQuery("DlTempDetmh.analisisByTp", Double.class);
+                    = em.createNamedQuery("DlTempDetmh.analisisByTpF", Double.class);
             query.setParameter("tpanalisis", em.find(ScTpanalisis.class, BigDecimal.valueOf(tpanalisis)));
             query.setParameter("doc", em.find(DlEncamh.class, "100000001011"));
             query.setParameter("muestra", BigDecimal.valueOf(nmuestras));
+            query.setParameter("fecha", f);
 
             val = query.getResultList();
             System.out.println("Valor analisis: ");
@@ -297,7 +306,6 @@ public class ControlMuestra implements Serializable {
         em.close();
         return val;
     }
-
 
     public List<Double> valorAnalisis() {
         em = emf.createEntityManager();
@@ -319,7 +327,30 @@ public class ControlMuestra implements Serializable {
 
         return valAnalisis;
     }
-    
+
+    public List<String> findDate() {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+        List<String> fechas=new ArrayList<String>();
+        
+         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+        
+        
+        TypedQuery<Date> query
+                = em.createNamedQuery("DlTempDetmh.findDate", Date.class);
+        List<Date> valAnalisis = query.getResultList();
+
+        for (Date a : valAnalisis) {
+            System.out.print("fecha: " + a);
+            
+            fechas.add(formatter.format(a));
+        }
+
+        em.close();
+
+        return fechas;
+    }
+
     public List<ProcessPacking> getNMuestras() {
         return NMuestras;
     }

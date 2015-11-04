@@ -12,7 +12,8 @@ import javax.persistence.ManyToOne;
 @Entity
 @Table(name="SC_CENTROPAISES")
 @NamedQueries({
-    @NamedQuery(name="ScCentroPaises.findAll",query="SELECT s FROM ScCentroPaises s")
+    @NamedQuery(name="ScCentroPaises.findAll",query="SELECT s FROM ScCentroPaises s"),
+    @NamedQuery(name = "ScCentroPaises.findByPaisId", query = "SELECT s FROM ScCentroPaises s WHERE s.paisId = :paisId"),
 })
 public class ScCentroPaises implements Serializable {
 

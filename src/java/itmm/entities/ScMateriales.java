@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScMateriales.findByFrecuencia", query = "SELECT s FROM ScMateriales s WHERE s.frecuencia = :frecuencia"),
     @NamedQuery(name = "ScMateriales.findByNomuestras", query = "SELECT s FROM ScMateriales s WHERE s.nomuestras = :nomuestras"),
     @NamedQuery(name = "ScMateriales.findByIntervalo", query = "SELECT s FROM ScMateriales s WHERE s.intervalo = :intervalo"),
-    @NamedQuery(name = "ScMateriales.findByHinicio", query = "SELECT s FROM ScMateriales s WHERE s.hinicio = :hinicio")
+    @NamedQuery(name = "ScMateriales.findByHinicio", query = "SELECT s FROM ScMateriales s WHERE s.hinicio = :hinicio"),
+    @NamedQuery(name = "ScMateriales.findByMaterialTp", query = "SELECT s FROM ScMateriales s WHERE s.tipomaterialId = :tpmaterialId")
 })
 public class ScMateriales implements Serializable {
     private static final long serialVersionUID = 1L;

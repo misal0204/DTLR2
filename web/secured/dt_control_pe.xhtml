@@ -120,44 +120,63 @@
                       showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="AddDocument" style="text-align:center;">
                     <p:panelGrid  columns="2" columnClasses="label,value">
+                        
                         <h:outputText value="Documento:" />
-                        <h:inputText value="" />
+                        <h:inputText value="" required="true" requiredMessage="# de documento"/>
+                        
                         <h:outputText value="Pais: " />
-                        <p:selectOneMenu id="pais">
+                        <p:selectOneMenu id="pais" value="#{documentsB.selectedPais}" var="selectedPais" required="true" requiredMessage="Seleccione país">
                             <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
-                            <f:selectItems value="#{documentsB.paises}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.paisId}"/>
+                            <f:selectItems value="#{documentsB.paises}" var="selectedPais" itemLabel="#{selectedPais.nombre}" itemValue="#{selectedPais.paisId}" />
+                            <p:ajax update="centro_menu"/>
                         </p:selectOneMenu>
+
                         <h:outputText value="Centro:" />
-                        <p:selectOneMenu id="centro">
+                        <p:selectOneMenu id="centro_menu" value="#{documentsB.selectedCentro}" var="selectedCentro" required="true" requiredMessage="Seleccione centro">
                             <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
-                            <f:selectItems value="#{documentsB.centros}" var="cen" itemLabel="#{cen.centroId}" itemValue="#{cen.centroId}"/>
+                            <f:selectItems value="#{documentsB.findCentro(documentsB.selectedPais)}" var="selectedCentro" itemLabel="#{selectedCentro.centroId.nombre}" itemValue="#{selectedCentro.centroId.centroId}"/>
+                            <p:ajax update="molino_menu"/>
                         </p:selectOneMenu>
+
                         <h:outputText value="Molino: " />
-                        <p:selectOneMenu id="molino">
+                        <p:selectOneMenu id="molino_menu" value="#{documentsB.selectedMolino}" var="selectedMolino" required="true" requiredMessage="seleccione molino">
                             <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
-                            <f:selectItems value="#{documentsB.molinos}" var="mol" itemLabel="#{mol.nombre}" itemValue="#{mol.molinoId}"/>
+                            <f:selectItems value="#{documentsB.findMolino(documentsB.selectedCentro)}" var="selectedMolino" itemLabel="#{selectedMolino.molinoId.nombre}" itemValue="#{selectedMolino.molinoId.molinoId}"/>
                         </p:selectOneMenu>
 
                         <h:outputText value="Muestra: " />
-                        <p:selectOneMenu id="muestra">
+                        <p:selectOneMenu id="muestra" required="true" requiredMessage="seleccione tipo de muestra">
                             <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
                             <f:selectItems value="#{documentsB.muestras}" var="mues" itemLabel="#{mues.nombre}" itemValue="#{mues.muestraId}"/>
                         </p:selectOneMenu>
 
                         <h:outputText value="Lote: " />
-                        <h:inputText value="" />                        
+                        <h:inputText value="" required="true" requiredMessage="ingrese lote"/>  
+
+                        <h:outputText value="Tipo de material: " />
+                        <p:selectOneMenu  value="#{documentsB.selectedTpMaterial}" var="selectedTpMaterial" required="true" requiredMessage="Seleccione tp material">
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{documentsB.tpMateriales()}" var="selectedTpMaterial" itemLabel="#{selectedTpMaterial.nombre}" itemValue="#{selectedTpMaterial.tipomaterialId}"/>
+                            <p:ajax update="material_menu"/>
+                        </p:selectOneMenu>
 
                         <h:outputText value="Material: " />
-                        <h:inputText id="materiaInput" value="" />
+                        <p:selectOneMenu id="material_menu" value="#{documentsB.selectedMaterial}" var="selectedMaterial" required="true" requiredMessage="seleccione material">
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{documentsB.findMaterial(documentsB.selectedTpMaterial)}" var="selectedMaterial" itemLabel="#{selectedMaterial.nombre}" itemValue="#{selectedMaterial.materialId}"/>
+                        </p:selectOneMenu>
 
                         <h:outputText value="Fecha: " />
                         <h:outputText value="#{documentsB.toDate_now()}" />
 
                         <h:outputText value="Fecha de producción: " />
-                        <p:calendar id="mask" pattern="dd-MM-yyyy" mask="true" />
+                        <p:calendar id="mask" pattern="dd-MM-yyyy" mask="true" required="true" requiredMessage="Ingrese fecha"/>
 
                         <h:outputText value="Estado: " />
-                        <h:inputText value="" />
+                        <p:selectOneMenu id="estados" required="true" requiredMessage="Seleccione un estado">
+                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{documentsB.findEstados()}" var="selectedEstados" itemLabel="#{selectedEstados.estado}" itemValue="#{selectedEstados.estadoId}"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                 </p:outputPanel>
                 <f:facet name="footer">

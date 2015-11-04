@@ -2,10 +2,14 @@ package itmm.controller;
 
 import itmm.database.DBConnection;
 import itmm.entities.DlEncamh;
+import itmm.entities.ScCentroPaises;
 import itmm.entities.ScCentros;
+import itmm.entities.ScEstados;
 import itmm.entities.ScMateriales;
+import itmm.entities.ScMolinoCentros;
 import itmm.entities.ScMolinos;
 import itmm.entities.ScPaises;
+import itmm.entities.ScTipomateriales;
 import itmm.entities.ScTipomuestras;
 import itmm.util.MyUtil;
 import java.io.Serializable;
@@ -42,6 +46,12 @@ public class DocumentsBean implements Serializable {
     private List<ScMateriales> materiales;
 
     private DlEncamh documentosSelected;
+    private String selectedPais;
+    private String selectedCentro;
+    private String selectedMolino;
+    private String selectedTpMaterial;
+    private String selectedMaterial;
+
     private String schema;
     private String usuario;
     private String pass;
@@ -72,15 +82,17 @@ public class DocumentsBean implements Serializable {
             List<DlEncamh> results = query.getResultList();
 
             documentos = results;
-            molinos = molinosId(em);
+            //molinos = molinosId(em);
             muestras = muestrasId(em);
-            centros = centrosId(em);
+            //centros = centrosId(em);
             paises = paisesId(em);
             materiales = materialesDoc(em);
 
-            for (DlEncamh document : results) {
-                System.out.println("Documento: " + document.getDocumento());
-            }
+            //findCentro("SV");
+
+            /*for (DlEncamh document : results) {
+             System.out.println("Documento: " + document.getDocumento());
+             }*/
         } catch (PersistenceException pe) {
             System.out.println("Mensaje error Documento bean: " + pe.getMessage());
             System.err.println("Error DBConnection: " + pe.getMessage());
@@ -133,6 +145,79 @@ public class DocumentsBean implements Serializable {
         return results;
     }
 
+    public List<ScCentroPaises> findCentro(String paisId) {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        ScPaises pais = em.find(ScPaises.class, paisId);
+
+        TypedQuery<ScCentroPaises> query
+                = em.createNamedQuery("ScCentroPaises.findByPaisId", ScCentroPaises.class);
+        query.setParameter("paisId", pais);
+        List<ScCentroPaises> results = query.getResultList();
+
+        em.close();
+        return results;
+    }
+
+    public List<ScMolinoCentros> findMolino(String centroId) {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        ScCentros centro = em.find(ScCentros.class, centroId);
+
+        TypedQuery<ScMolinoCentros> query
+                = em.createNamedQuery("ScMolinoCentros.findByCentro", ScMolinoCentros.class);
+        query.setParameter("centroId", centro);
+        List<ScMolinoCentros> results = query.getResultList();
+
+        for (ScMolinoCentros mol : results) {
+            System.out.println("Molino: " + mol.getMolinoId().getNombre() + " - " + mol.getCentroId().getNombre());
+        }
+
+        em.close();
+        return results;
+    }
+
+    public List<ScTipomateriales> tpMateriales() {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        TypedQuery<ScTipomateriales> query
+                = em.createNamedQuery("ScTipomateriales.findAll", ScTipomateriales.class);
+        List<ScTipomateriales> results = query.getResultList();
+
+        em.close();
+        return results;
+    }
+
+    public List<ScMateriales> findMaterial(String tpmaterial) {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        ScTipomateriales tmaterial = em.find(ScTipomateriales.class, tpmaterial);
+
+        TypedQuery<ScMateriales> query
+                = em.createNamedQuery("ScMateriales.findByMaterialTp", ScMateriales.class);
+        query.setParameter("tpmaterialId", tmaterial);
+        List<ScMateriales> results = query.getResultList();
+
+        em.close();
+        return results;
+    }
+
+    public List<ScEstados> findEstados() {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        TypedQuery<ScEstados> query
+                = em.createNamedQuery("ScEstados.findAll", ScEstados.class);
+        List<ScEstados> results = query.getResultList();
+
+        em.close();
+        return results;
+    }
+
     public String toDate(Date date) {
         //Date now = new Date();
         DateFormat df = DateFormat.getDateInstance();
@@ -158,6 +243,46 @@ public class DocumentsBean implements Serializable {
 
     public String irProceso() {
         return "dt_control_muestras.xhtml?faces-redirect=true";
+    }
+
+    public String getSelectedMaterial() {
+        return selectedMaterial;
+    }
+
+    public void setSelectedMaterial(String selectedMaterial) {
+        this.selectedMaterial = selectedMaterial;
+    }
+
+    public String getSelectedTpMaterial() {
+        return selectedTpMaterial;
+    }
+
+    public void setSelectedTpMaterial(String selectedTpMaterial) {
+        this.selectedTpMaterial = selectedTpMaterial;
+    }
+
+    public String getSelectedPais() {
+        return selectedPais;
+    }
+
+    public void setSelectedPais(String selectedPais) {
+        this.selectedPais = selectedPais;
+    }
+
+    public String getSelectedCentro() {
+        return selectedCentro;
+    }
+
+    public void setSelectedCentro(String selectedCentro) {
+        this.selectedCentro = selectedCentro;
+    }
+
+    public String getSelectedMolino() {
+        return selectedMolino;
+    }
+
+    public void setSelectedMolino(String selectedMolino) {
+        this.selectedMolino = selectedMolino;
     }
 
     public List<ScMateriales> getMateriales() {

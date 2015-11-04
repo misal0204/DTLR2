@@ -25,7 +25,9 @@ import javax.persistence.StoredProcedureParameter;
     @NamedQuery(name = "ScMaterialAnalisis.readAnalisis", query = "SELECT ana.nickName FROM ScMaterialAnalisis ma, ScAnalisis ana WHERE ma.analisisId.analisisId = ana.analisisId AND ana.tpanalisisId = :tpanalisis AND ma.materialId = :materialid"),
     @NamedQuery(name = "ScMaterialAnalisis.readMaximo", query = "SELECT ma.maximo FROM ScMaterialAnalisis ma, ScAnalisis ana WHERE ma.analisisId.analisisId = ana.analisisId AND ana.tpanalisisId = :tpanalisis AND ma.materialId = :materialid"),
     @NamedQuery(name = "ScMaterialAnalisis.readMinimo", query = "SELECT ma.minimo FROM ScMaterialAnalisis ma, ScAnalisis ana WHERE ma.analisisId.analisisId = ana.analisisId AND ana.tpanalisisId = :tpanalisis AND ma.materialId = :materialid"),
-    @NamedQuery(name = "ScMaterialAnalisis.readNoMuestras", query = "SELECT ma.nomuestras FROM ScMateriales ma WHERE ma.materialId = :materialId")
+    @NamedQuery(name = "ScMaterialAnalisis.readNoMuestras", query = "SELECT ma.nomuestras FROM ScMateriales ma WHERE ma.materialId = :materialId"),
+    @NamedQuery(name = "ScMaterialAnalisis.readAnalisisWhereMaterial", query = "SELECT s FROM ScMaterialAnalisis s WHERE s.materialId= :materialid"),
+    @NamedQuery(name = "ScMaterialAnalisis.existsAnalisisWhereMaterial", query = "SELECT an FROM ScAnalisis an WHERE NOT EXISTS (SELECT ma FROM ScMaterialAnalisis ma WHERE ma.analisisId.analisisId = an.analisisId AND ma.materialId= :materialid)")
 })
 @NamedStoredProcedureQuery(
         name = "spcount",

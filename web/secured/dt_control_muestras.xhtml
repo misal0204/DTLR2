@@ -4,74 +4,100 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
         <title>Matriz de control de proceso</title>
     </h:head>
     <h:body>
         <h:form id="headerProc">
             <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>
+            <p:panel header="Número de documento: m201-00000001" style="margin-bottom:10px" toggleable="true" toggleSpeed="500">
+                <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+                    <h:column id="column1">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Centro: " for="centro"/>
+                            <h:outputLabel value="M201" id="centro"/>
+                            <h:outputLabel value="Molino: " for="molino"/>
+                            <h:outputLabel value="Molino A" id="molino"/>
+                        </h:panelGrid>
+                    </h:column>
+                    <h:column id="column2">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Muestra: " for="muestra" />
+                            <p:outputLabel value="1005" id="muestra" />
+                            <p:outputLabel value="Lote: " for="lote"/>
+                            <p:outputLabel value="1000156" id="lote"/>                            
+                        </h:panelGrid>                        
+                    </h:column>
+                    <h:column id="column3">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Material: " for="material" />
+                            <p:outputLabel value="36000006" id="material" />
+                            <p:outputLabel value="Fecha producción: " for="fProduccion"/> 
+                            <h:outputLabel value="12/05/2013" id="fProduccion"/>                            
+                        </h:panelGrid>                       
+                    </h:column>                   
+                </h:panelGrid>
+            </p:panel>
         </h:form>
-        <p:scrollPanel style="width: max-content; height: 100%" mode="native">
-            <h:form id="dtable_process">
-                <p:dataTable id="ctrl_muestras" value="#{controlM.NMuestras}" var="noM"
-                             style="text-align: center">
-                    <f:facet name="header">
-                        Muestras de procesos y empaque
-                    </f:facet>
-                    <p:columnGroup type="header">
-                        <p:row>
-                            <p:column rowspan="2" headerText="NoMuestra" style="width: 10%"/>
-                            <p:column rowspan="2" headerText="Hora" style="width: 10%"/>                            
-                            <c:forEach var="tpanalisis_id"  begin="1"  end="#{controlM.countTpAnalisis()}">
-                                <p:column colspan="#{controlM.countAnalisis(tpanalisis_id)}" headerText="#{controlM.nameTpAnalisis(tpanalisis_id)}" rendered="#{controlM.existe(tpanalisis_id)}" style="background: greenyellow;color: black;"/>
-                            </c:forEach>
-                        </p:row>
-                        <p:row>
-                            <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
-                                <c:forEach items="#{controlM.findAnalisis(tpanalisis)}" var="analisis" rendered="#{controlM.existe(tpanalisis)}">
-                                    <p:column headerText="#{analisis}" width="50%"/>
+        <h:form id="dtable_process">
+            <p:tabView value="#{controlM.findDate()}" var="fecha">
+                <p:tab title="#{fecha}">
+                    <p:dataTable id="ctrl_muestras" value="#{controlM.NMuestras}" var="noM"
+                                 style="text-align: center">
+                        <f:facet name="header">
+                            Muestras de procesos y empaque
+                        </f:facet>
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column rowspan="2" headerText="NoMuestra" style="width: 10%"/>
+                                <p:column rowspan="2" headerText="Hora" style="width: 10%"/>                            
+                                <c:forEach var="tpanalisis_id"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                                    <p:column colspan="#{controlM.countAnalisis(tpanalisis_id)}" headerText="#{controlM.nameTpAnalisis(tpanalisis_id)}" rendered="#{controlM.existe(tpanalisis_id)}" style="background: greenyellow;color: black;"/>
                                 </c:forEach>
-                            </c:forEach>
-                        </p:row>
-                    </p:columnGroup>
-
-                    <p:column>
-                        <p:outputLabel value="#{noM.noMuestra}"/>
-                    </p:column>
-                    <p:column>
-                        <p:outputLabel value="#{noM.noMuestra}"/>
-                    </p:column>
-
-                    <c:forEach var="tpanalisis_id"  begin="1"  end="#{controlM.countTpAnalisis()}">
-                        <p:columns value="#{controlM.findDTAnalisis(tpanalisis_id, 3)}" var="valor_analisis" rendered="#{controlM.existeAnalisis(tpanalisis_id, 3)}">
-                            <h:outputText value="#{valor_analisis}"/>
-                        </p:columns>
-                    </c:forEach>    
-                    
-                    <p:columnGroup type="footer">
-                        <p:row>
-                            <p:column rowspan="2" footerText="Parámetros" style="width: 10%"/>
-                            <p:column footerText="Max" style="width: 10%"/> 
-                            <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
-                                <c:forEach items="#{controlM.findAnalisisMax(tpanalisis)}" var="analisis_max" rendered="#{controlM.existe(tpanalisis)}">
-                                    <p:column footerText="#{analisis_max}" style="width:15%"/>
+                            </p:row>
+                            <p:row>
+                                <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                                    <c:forEach items="#{controlM.findAnalisis(tpanalisis)}" var="analisis" rendered="#{controlM.existe(tpanalisis)}">
+                                        <p:column headerText="#{analisis}" width="50%"/>
+                                    </c:forEach>
                                 </c:forEach>
-                            </c:forEach>
-                        </p:row>
-                        <p:row>
-                            <p:column footerText="Min" style="width: 10%"/>
-                            <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
-                                <c:forEach items="#{controlM.findAnalisisMin(tpanalisis)}" var="analisis_min" rendered="#{controlM.existe(tpanalisis)}">
-                                    <p:column footerText="#{analisis_min}" style="width:25%"/>
+                            </p:row>
+                        </p:columnGroup>
+                        <p:column>
+                            <p:outputLabel value="#{noM.noMuestra}"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{noM.noMuestra}"/>
+                        </p:column>
+                        <c:forEach var="tpanalisis_id"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                            <p:columns value="#{controlM.findDTAnalisis(tpanalisis_id, 3)}" var="valor_analisis" rendered="#{controlM.existeAnalisis(tpanalisis_id, 3)}">
+                                <h:outputText value="#{valor_analisis}"/>
+                            </p:columns>
+                        </c:forEach>                        
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column rowspan="2" footerText="Parámetros" style="width: 10%"/>
+                                <p:column footerText="Max" style="width: 10%"/> 
+                                <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                                    <c:forEach items="#{controlM.findAnalisisMax(tpanalisis)}" var="analisis_max" rendered="#{controlM.existe(tpanalisis)}">
+                                        <p:column footerText="#{analisis_max}" style="width:15%"/>
+                                    </c:forEach>
                                 </c:forEach>
-                            </c:forEach>
-                        </p:row>
-                    </p:columnGroup>
-                </p:dataTable>
-            </h:form>
-        </p:scrollPanel>
+                            </p:row>
+                            <p:row>
+                                <p:column footerText="Min" style="width: 10%"/>
+                                <c:forEach var="tpanalisis"  begin="1"  end="#{controlM.countTpAnalisis()}">
+                                    <c:forEach items="#{controlM.findAnalisisMin(tpanalisis)}" var="analisis_min" rendered="#{controlM.existe(tpanalisis)}">
+                                        <p:column footerText="#{analisis_min}" style="width:25%"/>
+                                    </c:forEach>
+                                </c:forEach>
+                            </p:row>
+                        </p:columnGroup>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+        </h:form>
     </h:body>
 </html>
 

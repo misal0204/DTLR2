@@ -13,6 +13,7 @@
 
             <p:panel header="Crear">
                 <h:commandButton value="Crear material" action="#{materialB.crearMaterial()}"/>
+                <h:commandButton value="Asignar analisis a material" action="#{materialB.asginar_AnalisisMaterial()}"/>
             </p:panel>
             <p:dataTable id="singleDT" var="material" value="#{materialB.materiales}" selectionMode="single" selection="#{materialB.selectedMaterial}" rowKey="#{material.materialId}">
                 <f:facet name="header">

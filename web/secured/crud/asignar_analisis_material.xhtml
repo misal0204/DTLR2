@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Asignar análisis a material</title>
+    </h:head>
+    <h:body>
+        <h:form id="cabecera_MatAnali">
+            <h:graphicImage url="/resources/images/final.jpg" style=" width: 100%;background-size: 100% 100%;"/>
+        </h:form>
+        <h:form id="form_body_MatAnali">
+            <p:panel header="Seleccione material">
+                <p:panelGrid columns="6" style="text-align: center">
+                    <p:outputLabel value="Tipo de material: "/>
+                    <p:selectOneMenu value="#{materialB.selectedTpMaterial}" var="selectedTpMaterial" required="true" requiredMessage="seleccione molino">
+                        <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{materialB.tpMateriales()}" var="selectedTpMaterial" itemLabel="#{selectedTpMaterial.nombre}" itemValue="#{selectedTpMaterial.tipomaterialId}"/>
+                        <p:ajax update="material_menu"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Material: "/>
+                    <p:selectOneMenu id="material_menu" value="#{materialB.selectedMateriales}" var="selectedMaterial" required="true" requiredMessage="seleccione molino">
+                        <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{materialB.findMaterial(materialB.selectedTpMaterial)}" var="selectedMaterial" itemLabel="#{selectedMaterial.nombre}" itemValue="#{selectedMaterial.materialId}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton id="btn_mostrar_material" value="Mostrar" action="#{materialB.findAnalisisWithMaterial()}"
+                                     update=":form_body_MatAnali:dtable_mat"/> 
+                    <p:commandButton id="btn_mostrar_analisis" value="Ver Analisis" action="#{materialB.existsAnalisisWithMaterial()}"
+                                     update=":form_body_MatAnali:dtable_matanalisis"/> 
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel header="Analisis por material">
+                <p:dataTable id="dtable_mat" value="#{materialB.material_analisis}" var="material_analisis"
+                             style="text-align: center"
+                             rows="5"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10">
+                    <p:column headerText="NickName">
+                        <h:outputText value="#{material_analisis.analisisId.nickName}"/>
+                    </p:column>
+                    <p:column headerText="Analisis">
+                        <h:outputText value="#{material_analisis.analisisId.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Tipo">
+                        <h:outputText value="#{material_analisis.analisisId.tpanalisisId.nombre}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:panel header="Analisis">
+                <p:dataTable id="dtable_matanalisis" value="#{materialB.analisis_exists}" var="analisis"
+                             style="text-align: center">
+                    <p:column headerText="NickName">
+                        <h:outputText value="#{analisis.nickName}"/>
+                    </p:column>
+                    <p:column headerText="Analisis">
+                        <h:outputText value="#{analisis.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Tipo">
+                        <h:outputText value="#{analisis.tpanalisisId.nombre}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
